@@ -74,7 +74,12 @@ public class AuthController {
     }
 
     @GetMapping("/oauth/tokeninfo")
-    public ResponseEntity<?> getTokenInfo(OAuth2Authentication authentication) {
+    public ResponseEntity<?> getTokenInfo(Principal principal) {
+        return ResponseEntity.ok(principal);
+    }
+
+    @GetMapping("/oauth/info")
+    public ResponseEntity<?> getInfo(OAuth2Authentication authentication) {
         return ResponseEntity.ok(authentication.getPrincipal());
     }
 
