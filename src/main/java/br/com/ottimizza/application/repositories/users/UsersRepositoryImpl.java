@@ -99,6 +99,8 @@ public class UsersRepositoryImpl implements UsersRepositoryCustom {
         JPAQuery<UserShortDTO> query = new JPAQuery<UserShortDTO>(em).from(user);
         List<UserShortDTO> list = new ArrayList<UserShortDTO>();
         if(filter.getAuthority() == null || filter.getAuthority().equalsIgnoreCase("NENHUM")) {
+        	if(filter.getActive() != null)
+        		query.where(user.active.eq(true));
         	query.where(user.organization.id.eq(organizationId));
         	totalElements = filter(query, filter);
         	sort(query, pageable, UserShortDTO.class, QUSER_NAME);
@@ -130,6 +132,8 @@ public class UsersRepositoryImpl implements UsersRepositoryCustom {
         else {
         	query.innerJoin(userAuthorities).on(userAuthorities.id.authoritiesId.like(filter.getAuthority())
         			.and(userAuthorities.usersId.id.eq(user.id)));
+        	if(filter.getActive() != null)
+        		query.where(user.active.eq(true));
         	query.where(user.organization.id.eq(organizationId));
         	totalElements = filter(query, filter);  
         	sort(query, pageable, UserShortDTO.class, QUSER_NAME);
