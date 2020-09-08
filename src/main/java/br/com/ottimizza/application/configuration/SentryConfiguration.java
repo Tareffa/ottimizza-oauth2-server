@@ -52,18 +52,22 @@ public class SentryConfiguration {
     }
 
     private boolean validateIgnoredMessages(String message) {
-        for (String ignoredMessage : ignoredMessages) {
-            if (ignoredMessage.contains(message)) {
-                return false;
+        if (ignoredMessages.size() > 0) {
+            for (String ignoredMessage : ignoredMessages) {
+                if (ignoredMessage.contains(message)) {
+                    return false;
+                }
             }
         }
         return true;
     }
 
     private boolean validateIgnoredClasses(String resume) {
-        for (String ignoredClass : ignoredClasses) {
-            if (!ignoredClass.contains(resume)) {
-                return false;
+        if (ignoredClasses.size() > 0) {
+            for (String ignoredClass : ignoredClasses) {
+                if (!ignoredClass.contains(resume)) {
+                    return false;
+                }
             }
         }
         return true;
