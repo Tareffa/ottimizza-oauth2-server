@@ -41,7 +41,8 @@ public class SentryConfiguration {
                     rootCause = rootCause.getCause();
                 }
 
-                if (validateIgnoredMessages(rootCause.getMessage()) && validateIgnoredClasses(rootCause.toString())) {
+                if (rootCause.getMessage() != null && validateIgnoredMessages(rootCause.getMessage()) 
+                        && validateIgnoredClasses(rootCause.toString())) {
                     super.resolveException(request, response, handler, ex);
                 }
 
