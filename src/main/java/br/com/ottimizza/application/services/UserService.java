@@ -91,7 +91,8 @@ public class UserService {
                 .map(UserDTO::fromEntityWithOrganization);
     }
 
-    public User create(User user) throws OrganizationNotFoundException, UserAlreadyRegisteredException, Exception {
+    public User create(User user, Principal principal) throws OrganizationNotFoundException, UserAlreadyRegisteredException, Exception {
+        user.setUpdatedBy(principal.getName());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         checkIfEmailIsAlreadyRegistered(user);
         return userRepository.save(user);
@@ -100,6 +101,7 @@ public class UserService {
     public UserDTO create(UserDTO userDTO, Principal principal) // @formatter:off
             throws OrganizationNotFoundException, UserAlreadyRegisteredException, Exception {
         User authorizedUser = findByUsername(principal.getName());
+        userDTO.setUpdatedBy(principal.getName());
         User user = userDTO.toEntity(); 
         if (authorizedUser.getType().equals(User.Type.ADMINISTRATOR)) {
             Organization accounting = this.findAccounting(userDTO);
@@ -109,15 +111,16 @@ public class UserService {
             } else {
                 user.setOrganization(accounting);
             }
-            return UserDTO.fromEntity(create(user));
+            return UserDTO.fromEntity(create(user, principal));
         } else {
             user.setOrganization(authorizedUser.getOrganization());
         }
-        return UserDTO.fromEntity(create(user));
+        return UserDTO.fromEntity(create(user, principal));
     }
 
     public UserDTO upsert(UserDTO userDTO, Principal principal) throws UserNotFoundException, Exception {
         User authorizedUser = findByUsername(principal.getName());
+        userDTO.setUpdatedBy(principal.getName());
         if (userRepository.emailIsAlreadyRegistered(userDTO.getUsername())) {
             return UserDTO.fromEntity(userRepository.save(userDTO.patch(findByUsername(userDTO.getUsername()))));
         } else {
@@ -128,7 +131,7 @@ public class UserService {
                     user.setType(User.Type.ADMINISTRATOR);
                     user.setOrganization(authorizedUser.getOrganization());
                 }
-                return UserDTO.fromEntity(create(user));
+                return UserDTO.fromEntity(create(user, principal));
             } else {
                 user.setOrganization(authorizedUser.getOrganization());
             }
@@ -138,6 +141,7 @@ public class UserService {
 
     public UserDTO patch(BigInteger id, UserDTO userDTO, Principal principal)
             throws OrganizationNotFoundException, OrganizationAlreadyRegisteredException, Exception {
+        userDTO.setUpdatedBy(principal.getName());
         User current = findById(id);
         current = userDTO.patch(current);
         checkIfEmailIsAlreadyRegistered(current.getEmail(), current);
@@ -400,7 +404,7 @@ public class UserService {
                             .type(User.Type.ACCOUNTANT)
                             .organization(accounting).build();
 
-                        accountant = create(accountant);
+                        accountant = create(accountant, principal);
                     } else {
                         System.out.println("\n --- Contabilidade --- ");
                         System.out.println(MessageFormat.format(" Id: {0} ", accounting.getId()));
@@ -497,7 +501,7 @@ public class UserService {
                     } else {
                         // caso não exista, cria um novo usuário.
                         user.setPassword(object.getPassword());
-                        user = create(user);
+                        user = create(user, principal);
 
                         if (user.getType().equals(User.Type.CUSTOMER)) {
                             try { userRepository.addOrganization(user.getId(), organization.getId());

@@ -3,6 +3,7 @@ package br.com.ottimizza.application.model;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -82,18 +83,22 @@ public class Organization implements Serializable {
     
     @Getter @Setter
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @Getter @Setter
     @Column(name = "updated_at")
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
+
+    @Getter @Setter
+    @Column(name = "updated_by")
+    private String updatedBy;
 
     @PrePersist
     public void prePersist() {
         if (this.active == null) {
             this.active = true;
         }
-        this.setCreatedAt(LocalDate.now());
+        this.setCreatedAt(LocalDateTime.now());
         this.setExternalId(UUID.randomUUID().toString());
         this.setCnpj(cnpj.replaceAll("\\D", ""));
     }
@@ -103,7 +108,7 @@ public class Organization implements Serializable {
         if (this.active == null) {
             this.active = true;
         }
-        this.setUpdatedAt(LocalDate.now());
+        this.setUpdatedAt(LocalDateTime.now());
     }
 
     public static class Type {

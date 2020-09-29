@@ -31,6 +31,9 @@ public class OrganizationMapper { // @formatter:off
             .codigoERP(organization.getCodigoERP())
             .email(organization.getEmail())
             .avatar(organization.getAvatar())
+            .createdAt(organization.getCreatedAt())
+            .updatedAt(organization.getUpdatedAt())
+            .updatedBy(organization.getUpdatedBy())
             .organizationId(
                 organization.getOrganization() != null && organization.getOrganization().getId() != null
                 ? organization.getOrganization().getId()
@@ -61,6 +64,9 @@ public class OrganizationMapper { // @formatter:off
             .codigoERP(dto.getCodigoERP())
             .email(dto.getEmail())
             .avatar(dto.getAvatar())
+            .createdAt(dto.getCreatedAt())
+            .updatedAt(dto.getUpdatedAt())
+            .updatedBy(dto.getUpdatedBy())
             .organization(
                 dto.getOrganizationId() != null
                 ? Organization.builder().id(dto.getOrganizationId()).build()
