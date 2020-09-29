@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -81,6 +82,14 @@ public class UserDTO implements Serializable {
     @Setter
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private OrganizationDTO organization;
+
+    @Getter
+    @Setter
+    private LocalDate createdAt;
+
+    @Getter
+    @Setter
+    private LocalDate updatedAt;
 
     public User toEntity() {
         User user = new User();

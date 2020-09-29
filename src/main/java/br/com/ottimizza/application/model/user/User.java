@@ -2,16 +2,15 @@ package br.com.ottimizza.application.model.user;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Set;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Convert;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.ManyToOne;
@@ -21,7 +20,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-import br.com.ottimizza.application.model.Authority;
 import br.com.ottimizza.application.model.Organization;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -92,12 +90,27 @@ public class User implements Serializable {
     @ManyToOne
     @JoinColumn(name = "fk_accounting_id", nullable = true)
     private Organization organization;
+    
+    @Getter @Setter
+    @Column(name = "additional_information")
+    @Convert(converter = AdditionalInformationConverter.class)
+    private AdditionalInformation additionalInformation;
+    
+    @Getter @Setter
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 
+    @Getter @Setter
+    @Column(name = "updated_at")
+    private LocalDate updatedAt;
+    
+    
     @PrePersist
     public void prePersist() {
         if (this.active == null) {
             this.active = true;
         }
+        this.setCreatedAt(LocalDate.now());
     }
 
     @PreUpdate
@@ -105,6 +118,7 @@ public class User implements Serializable {
         if (this.active == null) {
             this.active = true;
         }
+        this.setUpdatedAt(LocalDate.now());
     }
 
     public static class Type {
@@ -112,5 +126,5 @@ public class User implements Serializable {
         public static final Integer ACCOUNTANT = 1;
         public static final Integer CUSTOMER = 2;
     }
-
+    
 }

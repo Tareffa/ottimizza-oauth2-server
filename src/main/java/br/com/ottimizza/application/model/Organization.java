@@ -2,6 +2,7 @@ package br.com.ottimizza.application.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -78,12 +79,21 @@ public class Organization implements Serializable {
     @ManyToOne
     @JoinColumn(name = "fk_organizations_id")
     private Organization organization;
+    
+    @Getter @Setter
+    @Column(name = "created_at")
+    private LocalDate createdAt;
+
+    @Getter @Setter
+    @Column(name = "updated_at")
+    private LocalDate updatedAt;
 
     @PrePersist
     public void prePersist() {
         if (this.active == null) {
             this.active = true;
         }
+        this.setCreatedAt(LocalDate.now());
         this.setExternalId(UUID.randomUUID().toString());
         this.setCnpj(cnpj.replaceAll("\\D", ""));
     }
@@ -93,6 +103,7 @@ public class Organization implements Serializable {
         if (this.active == null) {
             this.active = true;
         }
+        this.setUpdatedAt(LocalDate.now());
     }
 
     public static class Type {
