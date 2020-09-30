@@ -2,6 +2,8 @@ package br.com.ottimizza.application.domain.dtos;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +56,15 @@ public class OrganizationDTO implements Serializable {
 
     @Getter @Setter
     public BigInteger organizationId;
+    
+    @Getter @Setter
+    private LocalDateTime createdAt;
+
+    @Getter @Setter
+    private LocalDateTime updatedAt;
+
+    @Getter @Setter
+    private String updatedBy;
 
     public Organization toEntity(boolean removeNonDigitsFromCNPJ) {
         return Organization.builder()
@@ -75,6 +86,9 @@ public class OrganizationDTO implements Serializable {
                 ? Organization.builder().id(this.organizationId).build()
                 : null
             )
+            .createdAt(this.getCreatedAt())
+            .updatedAt(this.getUpdatedAt())
+            .updatedBy(this.getUpdatedBy())
             .build();
     }
     public Organization toEntity() {
@@ -97,6 +111,9 @@ public class OrganizationDTO implements Serializable {
                 ? organization.getOrganization().getId()
                 : null
             )
+            .createdAt(organization.getCreatedAt())
+            .updatedAt(organization.getUpdatedAt())
+            .updatedBy(organization.getUpdatedBy())
             .build();
     }
 
@@ -126,6 +143,9 @@ public class OrganizationDTO implements Serializable {
 
         if (this.email != null && !this.email.equals(""))
             organization.setEmail(this.email);
+
+        if(this.updatedBy != null && !this.updatedBy.equals(""))
+            organization.setUpdatedBy(this.updatedBy);
 
         return organization;
     }

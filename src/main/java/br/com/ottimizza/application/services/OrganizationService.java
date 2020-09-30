@@ -61,8 +61,9 @@ public class OrganizationService {
                 .orElseThrow(() -> new OrganizationNotFoundException("Organization not found."));
     }
 
-    public Organization create(Organization organization)
+    public Organization create(Organization organization, Principal principal)
             throws IllegalArgumentException, OrganizationAlreadyRegisteredException {
+        organization.setUpdatedBy(principal.getName());
         checkIfOrganizationIsNotParentOfItself(organization);
         checkIfOrganizationIsNotAlreadyRegistered(organization);
         return organizationRepository.save(organization);
@@ -199,6 +200,7 @@ public class OrganizationService {
      * ************************************************************************************************************* */
     public OrganizationDTO create(OrganizationDTO organizationDTO,boolean ignoreAccountingFilter, Principal principal)
             throws IllegalArgumentException, OrganizationAlreadyRegisteredException, Exception {
+        organizationDTO.setUpdatedBy(principal.getName());
         User authenticated = userService.findByUsername(principal.getName());
         Organization organization = organizationDTO.toEntity();
 
@@ -241,6 +243,7 @@ public class OrganizationService {
     public OrganizationDTO patch(BigInteger id, OrganizationDTO organizationDTO, Principal principal)
             throws OrganizationNotFoundException, OrganizationAlreadyRegisteredException, Exception {
         User authenticated = userService.findByUsername(principal.getName());
+        organizationDTO.setUpdatedBy(principal.getName());
         Organization current = organizationDTO.patch(findById(id, authenticated));
 
         // remove formatacao do cnpj.
@@ -261,6 +264,7 @@ public class OrganizationService {
         organization.setAvatar(current.getAvatar());
         organization.setType(current.getType());
         organization.setOrganization(current.getOrganization());
+        organization.setUpdatedBy(authorizedUser.getUsername());
 
         if (organizationDTO.getOrganizationId() == null) {
             if (authorizedUser.getOrganization() != null 
