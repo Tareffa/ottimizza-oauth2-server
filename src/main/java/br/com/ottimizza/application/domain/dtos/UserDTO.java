@@ -262,8 +262,22 @@ public class UserDTO implements Serializable {
         if (this.avatar != null && !this.avatar.equals(""))
             user.setAvatar(this.avatar);
 
-        if(this.additionalInformation != null)
-            user.setAdditionalInformation(this.additionalInformation);
+        if(this.additionalInformation != null) {
+            if(user.getAdditionalInformation() != null) {
+                if (this.additionalInformation.getAccountingDepartment() == null)
+                    this.additionalInformation.setAccountingDepartment(user.getAdditionalInformation().getAccountingDepartment());
+
+                if (this.additionalInformation.getRole() == null)
+                    this.additionalInformation.setRole(user.getAdditionalInformation().getRole());
+
+                if (this.additionalInformation.getBirthDate() == null)
+                    this.additionalInformation.setBirthDate(user.getAdditionalInformation().getBirthDate());
+
+                user.setAdditionalInformation(this.additionalInformation);
+            }
+            else
+                user.setAdditionalInformation(this.additionalInformation);
+        }
 
         if(this.updatedBy != null && !this.updatedBy.equals(""))
             user.setUpdatedBy(this.updatedBy);
