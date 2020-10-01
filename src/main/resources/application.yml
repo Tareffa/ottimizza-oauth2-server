@@ -71,5 +71,5 @@ tareffa:
     name: tareffa-service
     url: ${TAREFFA_URL:https://development-api.tareffa.com.br}
 
-accountingDepartments: ${DEPARTAMENTOS:fiscal, contábil, depto pessoal, financeiro, administrativo, legalização, diretoria}
-roles: ${FUNCOES:contador, gestor, diretor}
+accountingDepartments: ${USER_DEFAULT_DEPARTMENTS:fiscal, contábil, depto pessoal, financeiro, administrativo, legalização, diretoria}
+roles: ${USER_DEFAULT_ROLES:contador, gestor, diretor}
