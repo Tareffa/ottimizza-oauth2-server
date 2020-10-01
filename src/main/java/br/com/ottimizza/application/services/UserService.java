@@ -12,7 +12,10 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import br.com.ottimizza.application.domain.dtos.*;
+import br.com.ottimizza.application.model.user.AdditionalInformation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
@@ -20,10 +23,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.ottimizza.application.client.ReceitaWSClient;
-import br.com.ottimizza.application.domain.dtos.ImportDataModel;
-import br.com.ottimizza.application.domain.dtos.OrganizationDTO;
-import br.com.ottimizza.application.domain.dtos.UserDTO;
-import br.com.ottimizza.application.domain.dtos.UserShortDTO;
 import br.com.ottimizza.application.domain.dtos.criterias.SearchCriteria;
 import br.com.ottimizza.application.domain.exceptions.OrganizationAlreadyRegisteredException;
 import br.com.ottimizza.application.domain.exceptions.OrganizationNotFoundException;
@@ -66,8 +65,12 @@ public class UserService {
     
     @Inject
     UserProductsRepository userProductsRepository;
-   
-    
+
+    @Value("${accountingDepartments}")
+    private String DEPARTMENTS;
+
+    @Value("${roles}")
+    private String ROLES;
 
     public User findById(BigInteger id) throws UserNotFoundException, Exception {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found."));
@@ -578,6 +581,14 @@ public class UserService {
     
     public void deleteUserAuthorities(UserAuthorities userAuthorities) throws Exception {
     	userProductsRepository.deleteUserAuhtorities(userAuthorities.getUsersId(), userAuthorities.getAuthoritiesId());
+    }
+
+
+    public AdditionalInformationDTO getInformations() throws Exception {
+        AdditionalInformationDTO informations = new AdditionalInformationDTO();
+        informations.setDepartments(Arrays.asList(DEPARTMENTS.split(",").clone()));
+        informations.setRoles(Arrays.asList(ROLES.split(",").clone()));
+        return informations;
     }
     
 }

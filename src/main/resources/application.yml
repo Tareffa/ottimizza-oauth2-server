@@ -69,4 +69,7 @@ oauth2-config:
 tareffa:
   service:
     name: tareffa-service
-    url: ${TAREFFA_URL:https://development-api.tareffa.com.br}    
+    url: ${TAREFFA_URL:https://development-api.tareffa.com.br}
+
+accountingDepartments: ${DEPARTAMENTOS:fiscal, contábil, depto pessoal, financeiro, administrativo, legalização, diretoria}
+roles: ${FUNCOES:contador, gestor, diretor}
