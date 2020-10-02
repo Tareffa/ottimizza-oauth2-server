@@ -2,6 +2,8 @@ package br.com.ottimizza.application.domain.dtos;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +19,7 @@ import br.com.ottimizza.application.domain.mappers.OrganizationMapper;
 
 import br.com.ottimizza.application.model.Organization;
 import br.com.ottimizza.application.model.user.User;
+import br.com.ottimizza.application.model.user.AdditionalInformation;
 
 import br.com.ottimizza.application.domain.dtos.criterias.*;
 
@@ -95,6 +98,23 @@ public class UserDTO implements Serializable {
     
     @Getter
     @Setter
+    private LocalDateTime createdAt;
+    
+    @Getter
+    @Setter
+    private LocalDateTime updatedAt;
+
+    @Getter
+    @Setter
+    private String updatedBy;
+    
+    @Getter
+    @Setter
+    private AdditionalInformation additionalInformation;
+    
+    @Getter
+    @Setter
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String authority;
 
     public User toEntity() {
@@ -116,6 +136,10 @@ public class UserDTO implements Serializable {
         
         user.setAvatar(this.avatar);
         user.setOrganization(accounting);
+        user.setCreatedAt(this.createdAt);
+        user.setUpdatedAt(this.updatedAt);
+        user.setUpdatedBy(this.updatedBy);
+        user.setAdditionalInformation(this.additionalInformation);
 
         return user;
     }
@@ -166,7 +190,13 @@ public class UserDTO implements Serializable {
             .withPhone(user.getPhone())
             .withType(user.getType())
             .withAvatar(user.getAvatar())
+            .withCreatedAt(user.getCreatedAt())
+            .withUpdatedAt(user.getUpdatedAt())
+            .withUpdatedBy(user.getUpdatedBy())
+            .withAdditionalInformation(user.getAdditionalInformation())
             .withOrganizationId(user.getOrganization());
+
+
         // @formatter:on
         return dto;
     }
@@ -184,7 +214,12 @@ public class UserDTO implements Serializable {
             .withActive(user.getActive())
             .withActivated(user.getActivated())
             .withAvatar(user.getAvatar())
+            .withCreatedAt(user.getCreatedAt())
+            .withUpdatedAt(user.getUpdatedAt())
+            .withUpdatedBy(user.getUpdatedBy())
+            .withAdditionalInformation(user.getAdditionalInformation())
             .withOrganization(user.getOrganization() == null ? null : OrganizationDTO.fromEntity(user.getOrganization()));
+        	
         // @formatter:on
         return dto;
     }
@@ -231,6 +266,26 @@ public class UserDTO implements Serializable {
 
         if (this.avatar != null && !this.avatar.equals(""))
             user.setAvatar(this.avatar);
+
+        if(this.additionalInformation != null) {
+            if(user.getAdditionalInformation() != null) {
+                if (this.additionalInformation.getAccountingDepartment() == null)
+                    this.additionalInformation.setAccountingDepartment(user.getAdditionalInformation().getAccountingDepartment());
+
+                if (this.additionalInformation.getRole() == null)
+                    this.additionalInformation.setRole(user.getAdditionalInformation().getRole());
+
+                if (this.additionalInformation.getBirthDate() == null)
+                    this.additionalInformation.setBirthDate(user.getAdditionalInformation().getBirthDate());
+
+                user.setAdditionalInformation(this.additionalInformation);
+            }
+            else
+                user.setAdditionalInformation(this.additionalInformation);
+        }
+
+        if(this.updatedBy != null && !this.updatedBy.equals(""))
+            user.setUpdatedBy(this.updatedBy);
 
         // realiza update sem saber a senha antiga. para migração de clientes da Depaula
         // if (this.password != null && !this.password.equals("")) {
@@ -316,6 +371,26 @@ public class UserDTO implements Serializable {
             this.organizationId = organization.getId();
         }
         return this;
+    }
+    
+    UserDTO withCreatedAt(LocalDateTime createdAt) {
+    	this.createdAt = createdAt;
+    	return this;
+    }
+    
+    UserDTO withUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
+    }
+
+    UserDTO withUpdatedBy(String updatedBy){
+        this.updatedBy = updatedBy;
+        return this;
+    }
+    
+    UserDTO withAdditionalInformation(AdditionalInformation additionalInformation) {
+    	this.additionalInformation = additionalInformation;
+    	return this;
     }
 
 }

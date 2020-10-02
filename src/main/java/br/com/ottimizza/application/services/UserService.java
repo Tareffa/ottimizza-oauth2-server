@@ -12,7 +12,10 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import br.com.ottimizza.application.domain.dtos.*;
+import br.com.ottimizza.application.model.user.AdditionalInformation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
@@ -20,10 +23,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.ottimizza.application.client.ReceitaWSClient;
-import br.com.ottimizza.application.domain.dtos.ImportDataModel;
-import br.com.ottimizza.application.domain.dtos.OrganizationDTO;
-import br.com.ottimizza.application.domain.dtos.UserDTO;
-import br.com.ottimizza.application.domain.dtos.UserShortDTO;
 import br.com.ottimizza.application.domain.dtos.criterias.SearchCriteria;
 import br.com.ottimizza.application.domain.exceptions.OrganizationAlreadyRegisteredException;
 import br.com.ottimizza.application.domain.exceptions.OrganizationNotFoundException;
@@ -66,8 +65,12 @@ public class UserService {
     
     @Inject
     UserProductsRepository userProductsRepository;
-   
-    
+
+    @Value("${accountingDepartments}")
+    private String DEPARTMENTS;
+
+    @Value("${roles}")
+    private String ROLES;
 
     public User findById(BigInteger id) throws UserNotFoundException, Exception {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found."));
@@ -91,7 +94,8 @@ public class UserService {
                 .map(UserDTO::fromEntityWithOrganization);
     }
 
-    public User create(User user) throws OrganizationNotFoundException, UserAlreadyRegisteredException, Exception {
+    public User create(User user, Principal principal) throws OrganizationNotFoundException, UserAlreadyRegisteredException, Exception {
+        user.setUpdatedBy(principal.getName());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         checkIfEmailIsAlreadyRegistered(user);
         return userRepository.save(user);
@@ -100,6 +104,7 @@ public class UserService {
     public UserDTO create(UserDTO userDTO, Principal principal) // @formatter:off
             throws OrganizationNotFoundException, UserAlreadyRegisteredException, Exception {
         User authorizedUser = findByUsername(principal.getName());
+        userDTO.setUpdatedBy(principal.getName());
         User user = userDTO.toEntity(); 
         if (authorizedUser.getType().equals(User.Type.ADMINISTRATOR)) {
             Organization accounting = this.findAccounting(userDTO);
@@ -109,15 +114,16 @@ public class UserService {
             } else {
                 user.setOrganization(accounting);
             }
-            return UserDTO.fromEntity(create(user));
+            return UserDTO.fromEntity(create(user, principal));
         } else {
             user.setOrganization(authorizedUser.getOrganization());
         }
-        return UserDTO.fromEntity(create(user));
+        return UserDTO.fromEntity(create(user, principal));
     }
 
     public UserDTO upsert(UserDTO userDTO, Principal principal) throws UserNotFoundException, Exception {
         User authorizedUser = findByUsername(principal.getName());
+        userDTO.setUpdatedBy(principal.getName());
         if (userRepository.emailIsAlreadyRegistered(userDTO.getUsername().trim())) {
             return UserDTO.fromEntity(userRepository.save(userDTO.patch(findByUsername(userDTO.getUsername()))));
         } else {
@@ -128,7 +134,7 @@ public class UserService {
                     user.setType(User.Type.ADMINISTRATOR);
                     user.setOrganization(authorizedUser.getOrganization());
                 }
-                return UserDTO.fromEntity(create(user));
+                return UserDTO.fromEntity(create(user, principal));
             } else {
                 user.setOrganization(authorizedUser.getOrganization());
             }
@@ -138,6 +144,7 @@ public class UserService {
 
     public UserDTO patch(BigInteger id, UserDTO userDTO, Principal principal)
             throws OrganizationNotFoundException, OrganizationAlreadyRegisteredException, Exception {
+        userDTO.setUpdatedBy(principal.getName());
         User current = findById(id);
         current = userDTO.patch(current);
         checkIfEmailIsAlreadyRegistered(current.getEmail().trim(), current);
@@ -400,7 +407,7 @@ public class UserService {
                             .type(User.Type.ACCOUNTANT)
                             .organization(accounting).build();
 
-                        accountant = create(accountant);
+                        accountant = create(accountant, principal);
                     } else {
                         System.out.println("\n --- Contabilidade --- ");
                         System.out.println(MessageFormat.format(" Id: {0} ", accounting.getId()));
@@ -497,7 +504,7 @@ public class UserService {
                     } else {
                         // caso não exista, cria um novo usuário.
                         user.setPassword(object.getPassword());
-                        user = create(user);
+                        user = create(user, principal);
 
                         if (user.getType().equals(User.Type.CUSTOMER)) {
                             try { userRepository.addOrganization(user.getId(), organization.getId());
@@ -574,6 +581,14 @@ public class UserService {
     
     public void deleteUserAuthorities(UserAuthorities userAuthorities) throws Exception {
     	userProductsRepository.deleteUserAuhtorities(userAuthorities.getUsersId(), userAuthorities.getAuthoritiesId());
+    }
+
+
+    public AdditionalInformationDTO getInformations() throws Exception {
+        AdditionalInformationDTO informations = new AdditionalInformationDTO();
+        informations.setDepartments(Arrays.asList(DEPARTMENTS.split(",").clone()));
+        informations.setRoles(Arrays.asList(ROLES.split(",").clone()));
+        return informations;
     }
     
 }
