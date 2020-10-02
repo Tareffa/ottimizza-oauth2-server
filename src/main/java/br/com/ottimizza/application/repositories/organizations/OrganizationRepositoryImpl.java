@@ -107,6 +107,9 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryCustom 
             if (filter.getType() != null) {
                 query.where(organization.type.eq(filter.getType()));
             }
+            if (filter.getTypes() != null && filter.getTypes().size() > 0) {
+                query.where(organization.type.in(filter.getTypes()));
+            }
             if (filter.getOrganizationId() != null) {
                 query.where(organization.organization.id.eq(filter.getOrganizationId()));
             }

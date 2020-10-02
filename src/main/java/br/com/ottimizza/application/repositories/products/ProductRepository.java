@@ -13,7 +13,7 @@ import br.com.ottimizza.application.model.product.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, BigInteger> {
 
-    @Query("SELECT p FROM Product p WHERE p.group = :group")
+    @Query("SELECT p FROM Product p WHERE p.group = :group ORDER BY p.productOrder ASC")
     public List<Product> findAllByGroup(@Param("group") String group);
     
     @Query(value = "SELECT p.* FROM products p INNER JOIN users_products up on (up.fk_users_id = :userId) AND up.fk_products_id = p.id WHERE p.group_name = :group ORDER BY p.product_order ASC", nativeQuery = true)

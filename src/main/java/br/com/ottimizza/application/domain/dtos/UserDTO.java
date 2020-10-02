@@ -71,6 +71,11 @@ public class UserDTO implements Serializable {
     @Setter
     private Integer type;
 
+    @Getter
+    @Setter
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<Integer> types;
+
     @Getter @Setter
     private Boolean active;
 

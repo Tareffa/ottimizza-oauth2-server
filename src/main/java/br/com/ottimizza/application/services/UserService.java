@@ -77,7 +77,7 @@ public class UserService {
     }
 
     public User findByUsername(String username) throws UserNotFoundException, Exception {
-        return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException("User not found."));
+        return userRepository.findByUsername(username.trim()).orElseThrow(() -> new UserNotFoundException("User not found."));
     }
 
     public Page<UserDTO> fetchAll(UserDTO filter, SearchCriteria searchCriteria, Principal principal)
@@ -124,7 +124,7 @@ public class UserService {
     public UserDTO upsert(UserDTO userDTO, Principal principal) throws UserNotFoundException, Exception {
         User authorizedUser = findByUsername(principal.getName());
         userDTO.setUpdatedBy(principal.getName());
-        if (userRepository.emailIsAlreadyRegistered(userDTO.getUsername())) {
+        if (userRepository.emailIsAlreadyRegistered(userDTO.getUsername().trim())) {
             return UserDTO.fromEntity(userRepository.save(userDTO.patch(findByUsername(userDTO.getUsername()))));
         } else {
             User user = userDTO.toEntity(); 
@@ -147,7 +147,7 @@ public class UserService {
         userDTO.setUpdatedBy(principal.getName());
         User current = findById(id);
         current = userDTO.patch(current);
-        checkIfEmailIsAlreadyRegistered(current.getEmail(), current);
+        checkIfEmailIsAlreadyRegistered(current.getEmail().trim(), current);
         return UserDTO.fromEntity(userRepository.save(current));
     }
 
@@ -471,7 +471,7 @@ public class UserService {
                     user.setUsername(email);
 
                     // verificando se o usuario já está registrado no sistema
-                    if (userRepository.emailIsAlreadyRegistered(email)) {
+                    if (userRepository.emailIsAlreadyRegistered(email.trim())) {
                         User existing = findByUsername(email);
 
                         // se usuário existe mas não está vinculado a nenhuma contabilidade
@@ -536,7 +536,7 @@ public class UserService {
     //
     //
     public boolean checkIfEmailIsAlreadyRegistered(User user) throws UserAlreadyRegisteredException {
-        if (userRepository.emailIsAlreadyRegistered(user.getEmail())) {
+        if (userRepository.emailIsAlreadyRegistered(user.getEmail().trim())) {
             System.out.println("A user with that email address is already registered.");
             throw new UserAlreadyRegisteredException("A user with that email address is already registered.");
         }
@@ -544,7 +544,7 @@ public class UserService {
     }
 
     public boolean checkIfEmailIsAlreadyRegistered(String email, User user) throws UserAlreadyRegisteredException {
-        if (userRepository.emailIsAlreadyRegistered(email, user.getId())) {
+        if (userRepository.emailIsAlreadyRegistered(email.trim(), user.getId())) {
             System.out.println("A user with that email address is already registered.");
             throw new UserAlreadyRegisteredException("A user with that email address is already registered.");
         }
