@@ -73,3 +73,10 @@ tareffa:
 
 accountingDepartments: ${USER_DEFAULT_DEPARTMENTS:fiscal, contábil, depto pessoal, financeiro, administrativo, legalização, diretoria}
 roles: ${USER_DEFAULT_ROLES:contador, gestor, diretor}
+
+security:
+  jwt:
+    key-store: classpath:keystore.jks
+    key-store-password: letmein
+    key-pair-alias: mytestkey
+    key-pair-password: changeme
