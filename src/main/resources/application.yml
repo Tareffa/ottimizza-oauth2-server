@@ -76,7 +76,7 @@ roles: ${USER_DEFAULT_ROLES:contador, gestor, diretor}
 
 security:
   jwt:
-    key-store: classpath:keystore.jks
-    key-store-password: letmein
-    key-pair-alias: mytestkey
-    key-pair-password: changeme
+    key-store: classpath:store/ottimizza.jks
+    key-store-password: ottimizza
+    key-pair-alias: ottimizza
+    key-pair-password: ottimizza
