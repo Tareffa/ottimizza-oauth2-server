@@ -33,7 +33,7 @@ public class MailServices {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Value("${oauth2-config.server-url}")
+    @Value("${portal.server-url}")
     private String hostname;
 
     @Autowired
@@ -45,8 +45,8 @@ public class MailServices {
         Context context = new Context();
         String registerURL = "";
         try {
-            registerURL = new URIBuilder(MessageFormat.format("{0}/register", hostname))
-                    .addParameter("token", invitationToken).toString();
+            registerURL = new URIBuilder(MessageFormat.format("{0}/signup", hostname))
+                    .addParameter("invitation_token", invitationToken).toString();
         } catch (Exception ex) {
         }
         context.setVariable("registerURL", registerURL);
@@ -57,8 +57,8 @@ public class MailServices {
         Context context = new Context();
         String registerURL = "";
         try {
-            registerURL = new URIBuilder(MessageFormat.format("{0}/register", hostname))
-                    .addParameter("token", registerToken).toString();
+            registerURL = new URIBuilder(MessageFormat.format("{0}/signup", hostname))
+                    .addParameter("invitation_token", registerToken).toString();
         } catch (Exception ex) {
         }
         context.setVariable("invitedBy", invitedBy);
