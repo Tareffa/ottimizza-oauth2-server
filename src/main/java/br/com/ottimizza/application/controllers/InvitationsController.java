@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.ottimizza.application.domain.dtos.OrganizationDTO;
 import br.com.ottimizza.application.domain.dtos.UserDTO;
@@ -24,6 +24,7 @@ import br.com.ottimizza.application.model.Organization;
 import br.com.ottimizza.application.model.user.User;
 import br.com.ottimizza.application.model.user_organization.UserOrganizationInvite;
 import br.com.ottimizza.application.services.InvitationService;
+import br.com.ottimizza.application.services.MailServices;
 import br.com.ottimizza.application.services.SignUpService;
 
 @RestController // @formatter:off
@@ -35,7 +36,6 @@ public class InvitationsController {
 
     @Inject
     SignUpService signUpService;
-
 
     @GetMapping
     public ResponseEntity<?> fetch(@RequestParam(name = "page_index", required = false, defaultValue = "0") int pageIndex,
@@ -89,6 +89,5 @@ public class InvitationsController {
             signUpService.register(user, organization, token)
         ));
     }
-
-
+    
 }

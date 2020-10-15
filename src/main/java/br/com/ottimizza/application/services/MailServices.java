@@ -1,16 +1,6 @@
 package br.com.ottimizza.application.services;
 
-import java.math.BigInteger;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import br.com.ottimizza.application.client.MailSenderClient;
+import br.com.ottimizza.application.domain.dtos.MailDTO;
 import br.com.ottimizza.application.model.user.User;
 import lombok.Data;
 
@@ -33,6 +25,9 @@ public class MailServices {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
+    private MailSenderClient mailSenderClient;
+    
     @Value("${portal.server-url}")
     private String hostname;
 
@@ -40,7 +35,7 @@ public class MailServices {
     public MailServices(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
-
+    
     public String accountantInvitation(String invitationToken) {
         Context context = new Context();
         String registerURL = "";
@@ -67,6 +62,7 @@ public class MailServices {
     }
 
     public void send(String to, String subject, String content) {
+    	
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("redefinicao@depaula.com.br");
@@ -130,7 +126,14 @@ public class MailServices {
     public void send(Builder messageBuilder) {
         mailSender.send(messageBuilder.build());
     }
-
+    public void sendAwsSes(String to, String subject, String content) {
+        MailDTO mail = new MailDTO();
+        mail.setTo(to);
+        mail.setBody(subject);
+        mail.setBody(content);
+        
+        mailSenderClient.sendMail(mail);
+    }
     @Data
     public static class Builder {
 
@@ -221,5 +224,5 @@ public class MailServices {
         }
 
     }
-
+    
 }

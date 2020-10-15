@@ -75,3 +75,9 @@ portal:
 
 accountingDepartments: ${USER_DEFAULT_DEPARTMENTS:fiscal, contábil, depto pessoal, financeiro, administrativo, legalização, diretoria}
 roles: ${USER_DEFAULT_ROLES:contador, gestor, diretor}
+
+# NAO FUNCIONOU COLOQUEI DIRETO
+#email-sender:
+#  service:
+#    name: email-sender-service
+#    url: ${EMAIL_SENDER_URL:https://api-emaiil-sender.herokuapp.com}
