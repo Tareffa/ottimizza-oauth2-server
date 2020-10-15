@@ -24,7 +24,6 @@ import br.com.ottimizza.application.model.Organization;
 import br.com.ottimizza.application.model.user.User;
 import br.com.ottimizza.application.model.user_organization.UserOrganizationInvite;
 import br.com.ottimizza.application.services.InvitationService;
-import br.com.ottimizza.application.services.MailServices;
 import br.com.ottimizza.application.services.SignUpService;
 
 @RestController // @formatter:off
