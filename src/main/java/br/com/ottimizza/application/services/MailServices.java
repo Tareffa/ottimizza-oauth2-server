@@ -62,78 +62,44 @@ public class MailServices {
     }
 
     public void send(String to, String subject, String content) {
-    	
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("redefinicao@depaula.com.br");
-            messageHelper.setReplyTo("lucas@ottimizza.com.br");
-            messageHelper.setTo(to);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(content, true);
-        };
-        mailSender.send(messagePreparator);
+    	sendAws("", "", to, subject, content, "");
     }
 
     public void send(String name, String to, String subject, String content) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("redefinicao@ottimizza.com.br", name);
-            messageHelper.setReplyTo("lucas@ottimizza.com.br");
-            messageHelper.setTo(to);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(content, true);
-        };
-        mailSender.send(messagePreparator);
+    	sendAws("", name, to, subject, content, "");
     }
 
     public void send(String from, String name, String to, String subject, String content) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            String userDomain = from;
-
-            if (from.indexOf("@") >= 0) {
-                userDomain = from.substring(from.lastIndexOf("@") + 1);
-            }
-
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom(MessageFormat.format(MessageFormat.format("account@{0}", userDomain), from), name);
-            messageHelper.setReplyTo("lucas@ottimizza.com.br");
-            messageHelper.setTo(to);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(content, true);
-        };
-        mailSender.send(messagePreparator);
+    	sendAws("", name, to, subject, content, "");
     }
 
     public void send(String from, String name, String to, String subject, String content, String cc) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            String userDomain = from;
-
-            if (from.indexOf("@") >= 0) {
-                userDomain = from.substring(from.lastIndexOf("@") + 1);
-            }
-
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom(MessageFormat.format(MessageFormat.format("account@{0}", userDomain), from), name);
-            messageHelper.setReplyTo("lucas@ottimizza.com.br");
-            messageHelper.setTo(to);
-            messageHelper.setCc(cc);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(content, true);
-        };
-        mailSender.send(messagePreparator);
+    	sendAws("", name, to, subject, content, cc);
     }
 
     public void send(Builder messageBuilder) {
         mailSender.send(messageBuilder.build());
     }
-    public void sendAwsSes(String to, String subject, String content) {
-        MailDTO mail = new MailDTO();
+    
+    
+    public void sendAws(String from, String name, String to, String subject, String content, String cc)  {
+
+   	 MailDTO mail = new MailDTO();
         mail.setTo(to);
         mail.setBody(subject);
         mail.setBody(content);
+        mail.setName(name);
+        mail.setCc(cc);
         
+     	mail.setFrom(from); //liberar no SES algum diferente
+        sendAwsSes(mail);
+    }
+    
+    
+    public void sendAwsSes(MailDTO mail) {
         mailSenderClient.sendMail(mail);
     }
+    
     @Data
     public static class Builder {
 
