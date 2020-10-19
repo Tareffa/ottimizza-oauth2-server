@@ -71,6 +71,11 @@ tareffa:
     name: tareffa-service
     url: ${TAREFFA_URL:https://development-api.tareffa.com.br}
 
+email-sender:
+  service:
+    name: email-sender-service
+    url: ${EMAIL_SENDER_URL:https://api-emaiil-sender.herokuapp.com}
+
 portal:
   server-url: ${PORTAL_BASE_URL:https://development-accounts.ottimizza.com.br}
 

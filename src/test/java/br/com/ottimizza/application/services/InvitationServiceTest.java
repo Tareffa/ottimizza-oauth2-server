@@ -1,17 +1,8 @@
 package br.com.ottimizza.application.services;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-
 import javax.inject.Inject;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,9 +12,7 @@ import br.com.ottimizza.application.SpringbootOauth2ServerApplication;
 import br.com.ottimizza.application.domain.dtos.OrganizationDTO;
 import br.com.ottimizza.application.domain.dtos.models.invitation.InvitationDTO;
 import br.com.ottimizza.application.domain.exceptions.OrganizationAlreadyRegisteredException;
-import br.com.ottimizza.application.domain.exceptions.PasswordResetTokenInvalidException;
 import br.com.ottimizza.application.model.Organization;
-import br.com.ottimizza.application.model.PasswordResetToken;
 import br.com.ottimizza.application.model.user.User;
 
 // @formatter:off

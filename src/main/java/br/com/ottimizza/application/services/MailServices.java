@@ -86,7 +86,7 @@ public class MailServices {
 
    	 MailDTO mail = new MailDTO();
         mail.setTo(to);
-        mail.setBody(subject);
+        mail.setSubject(subject);
         mail.setBody(content);
         mail.setName(name);
         mail.setCc(cc);
@@ -97,6 +97,7 @@ public class MailServices {
     
     
     public void sendAwsSes(MailDTO mail) {
+
         mailSenderClient.sendMail(mail);
     }
     

@@ -24,6 +24,7 @@ import br.com.ottimizza.application.model.Organization;
 import br.com.ottimizza.application.model.user.User;
 import br.com.ottimizza.application.model.user_organization.UserOrganizationInvite;
 import br.com.ottimizza.application.services.InvitationService;
+import br.com.ottimizza.application.services.MailServices;
 import br.com.ottimizza.application.services.SignUpService;
 
 @RestController // @formatter:off
@@ -35,6 +36,9 @@ public class InvitationsController {
 
     @Inject
     SignUpService signUpService;
+
+    @Inject
+	MailServices mailServices;
 
     @GetMapping
     public ResponseEntity<?> fetch(@RequestParam(name = "page_index", required = false, defaultValue = "0") int pageIndex,
@@ -88,5 +92,18 @@ public class InvitationsController {
             signUpService.register(user, organization, token)
         ));
     }
-    
+	
+//	@GetMapping("mailTo")
+//    public String enviaEmailTeste() {
+//    	MailDTO mail = new MailDTO();
+//    	mail.setTo("dev.diogo@gmail.com");
+//    	mail.setSubject("this is a subject");
+//    	mail.setBody("nobody is a body.");
+//    	
+//    	try {
+//    		mailServices.send(mail.getTo(), mail.getSubject(), mail.getBody());
+//    		return "Success";
+//    	}catch (Exception e) { }
+//    	return "error";
+//    }
 }

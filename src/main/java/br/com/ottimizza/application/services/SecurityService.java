@@ -1,33 +1,15 @@
 package br.com.ottimizza.application.services;
 
-import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import br.com.ottimizza.application.domain.exceptions.PasswordResetTokenExpiredException;
 import br.com.ottimizza.application.domain.exceptions.PasswordResetTokenInvalidException;
 import br.com.ottimizza.application.model.PasswordResetToken;
-import br.com.ottimizza.application.model.user.User;
 import br.com.ottimizza.application.repositories.PasswordRecoveryRepository;
 import br.com.ottimizza.application.repositories.users.UsersRepository;
 
