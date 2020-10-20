@@ -1,7 +1,6 @@
 
 package br.com.ottimizza.application.controllers;
 
-import br.com.ottimizza.application.client.TareffaClient;
 import java.security.Principal;
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -14,36 +13,30 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-
+// Spring - Mail
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 // Spring - Security
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
-
+import org.springframework.stereotype.Controller;
 // Spring - Web
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-// Spring - Mail
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
-
+import br.com.ottimizza.application.client.TareffaClient;
 // Models 
 import br.com.ottimizza.application.model.PasswordResetToken;
-import br.com.ottimizza.application.model.tareffa.UsuarioTareffa;
 import br.com.ottimizza.application.model.user.User;
-
 // Repositories
 import br.com.ottimizza.application.repositories.PasswordRecoveryRepository;
 import br.com.ottimizza.application.repositories.users.UsersRepository;
-
+import br.com.ottimizza.application.services.MailContentBuilder;
 // Services
 import br.com.ottimizza.application.services.SecurityService;
-import br.com.ottimizza.application.services.MailContentBuilder;
-import java.util.Base64;
 
 @Controller
 public class PasswordRecoveryController {

@@ -1,16 +1,6 @@
 package br.com.ottimizza.application.services;
 
-import java.math.BigInteger;
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import br.com.ottimizza.application.client.MailSenderClient;
+import br.com.ottimizza.application.domain.dtos.MailDTO;
 import br.com.ottimizza.application.model.user.User;
 import lombok.Data;
 
@@ -33,20 +25,23 @@ public class MailServices {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Value("${oauth2-config.server-url}")
+    @Autowired
+    private MailSenderClient mailSenderClient;
+    
+    @Value("${portal.server-url}")
     private String hostname;
 
     @Autowired
     public MailServices(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
-
+    
     public String accountantInvitation(String invitationToken) {
         Context context = new Context();
         String registerURL = "";
         try {
-            registerURL = new URIBuilder(MessageFormat.format("{0}/register", hostname))
-                    .addParameter("token", invitationToken).toString();
+            registerURL = new URIBuilder(MessageFormat.format("{0}/signup", hostname))
+                    .addParameter("invitation_token", invitationToken).toString();
         } catch (Exception ex) {
         }
         context.setVariable("registerURL", registerURL);
@@ -57,8 +52,8 @@ public class MailServices {
         Context context = new Context();
         String registerURL = "";
         try {
-            registerURL = new URIBuilder(MessageFormat.format("{0}/register", hostname))
-                    .addParameter("token", registerToken).toString();
+            registerURL = new URIBuilder(MessageFormat.format("{0}/signup", hostname))
+                    .addParameter("invitation_token", registerToken).toString();
         } catch (Exception ex) {
         }
         context.setVariable("invitedBy", invitedBy);
@@ -67,70 +62,45 @@ public class MailServices {
     }
 
     public void send(String to, String subject, String content) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("redefinicao@depaula.com.br");
-            messageHelper.setReplyTo("lucas@ottimizza.com.br");
-            messageHelper.setTo(to);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(content, true);
-        };
-        mailSender.send(messagePreparator);
+    	sendAws("", "", to, subject, content, "");
     }
 
     public void send(String name, String to, String subject, String content) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("redefinicao@ottimizza.com.br", name);
-            messageHelper.setReplyTo("lucas@ottimizza.com.br");
-            messageHelper.setTo(to);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(content, true);
-        };
-        mailSender.send(messagePreparator);
+    	sendAws("", name, to, subject, content, "");
     }
 
     public void send(String from, String name, String to, String subject, String content) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            String userDomain = from;
-
-            if (from.indexOf("@") >= 0) {
-                userDomain = from.substring(from.lastIndexOf("@") + 1);
-            }
-
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom(MessageFormat.format(MessageFormat.format("account@{0}", userDomain), from), name);
-            messageHelper.setReplyTo("lucas@ottimizza.com.br");
-            messageHelper.setTo(to);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(content, true);
-        };
-        mailSender.send(messagePreparator);
+    	sendAws("", name, to, subject, content, "");
     }
 
     public void send(String from, String name, String to, String subject, String content, String cc) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            String userDomain = from;
-
-            if (from.indexOf("@") >= 0) {
-                userDomain = from.substring(from.lastIndexOf("@") + 1);
-            }
-
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom(MessageFormat.format(MessageFormat.format("account@{0}", userDomain), from), name);
-            messageHelper.setReplyTo("lucas@ottimizza.com.br");
-            messageHelper.setTo(to);
-            messageHelper.setCc(cc);
-            messageHelper.setSubject(subject);
-            messageHelper.setText(content, true);
-        };
-        mailSender.send(messagePreparator);
+    	sendAws("", name, to, subject, content, cc);
     }
 
     public void send(Builder messageBuilder) {
         mailSender.send(messageBuilder.build());
     }
+    
+    
+    public void sendAws(String from, String name, String to, String subject, String content, String cc)  {
 
+   	 MailDTO mail = new MailDTO();
+        mail.setTo(to);
+        mail.setSubject(subject);
+        mail.setBody(content);
+        mail.setName(name);
+        mail.setCc(cc);
+        
+     	mail.setFrom(from); //liberar no SES algum diferente
+        sendAwsSes(mail);
+    }
+    
+    
+    public void sendAwsSes(MailDTO mail) {
+
+        mailSenderClient.sendMail(mail);
+    }
+    
     @Data
     public static class Builder {
 
@@ -221,5 +191,5 @@ public class MailServices {
         }
 
     }
-
+    
 }

@@ -12,8 +12,6 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import br.com.ottimizza.application.domain.dtos.*;
-import br.com.ottimizza.application.model.user.AdditionalInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -23,13 +21,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.ottimizza.application.client.ReceitaWSClient;
+import br.com.ottimizza.application.domain.dtos.AdditionalInformationDTO;
+import br.com.ottimizza.application.domain.dtos.ImportDataModel;
+import br.com.ottimizza.application.domain.dtos.OrganizationDTO;
+import br.com.ottimizza.application.domain.dtos.UserDTO;
+import br.com.ottimizza.application.domain.dtos.UserShortDTO;
 import br.com.ottimizza.application.domain.dtos.criterias.SearchCriteria;
 import br.com.ottimizza.application.domain.exceptions.OrganizationAlreadyRegisteredException;
 import br.com.ottimizza.application.domain.exceptions.OrganizationNotFoundException;
 import br.com.ottimizza.application.domain.exceptions.UserAlreadyRegisteredException;
 import br.com.ottimizza.application.domain.exceptions.users.UserNotFoundException;
 import br.com.ottimizza.application.model.Organization;
-import br.com.ottimizza.application.model.product.Product;
 import br.com.ottimizza.application.model.user.User;
 import br.com.ottimizza.application.model.user.UserAuthorities;
 import br.com.ottimizza.application.model.user.UserProducts;

@@ -3,14 +3,10 @@ package br.com.ottimizza.application;
 // import org.apache.coyote.http2.Http2Protocol;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
-// import org.springframework.session.web.http.CookieSerializer;
-// import org.springframework.session.web.http.DefaultCookieSerializer;
 
 @SpringBootApplication
 @EnableFeignClients
@@ -25,7 +21,7 @@ public class SpringbootOauth2ServerApplication {
 	public SpringSecurityDialect securityDialect() {
 		return new SpringSecurityDialect();
 	}
-
+	
 	// @Bean
 	// public CookieSerializer cookieSerializer() {
 	// DefaultCookieSerializer serializer = new DefaultCookieSerializer();
