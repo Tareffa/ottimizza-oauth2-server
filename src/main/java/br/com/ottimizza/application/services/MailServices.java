@@ -78,9 +78,10 @@ public class MailServices {
     }
 
     public void send(Builder messageBuilder) {
-        mailSender.send(messageBuilder.build());
+    	
+    	sendAws("", "", messageBuilder.to, messageBuilder.subject, messageBuilder.content, "");
+//        mailSender.send(messageBuilder.build());
     }
-    
     
     public void sendAws(String from, String name, String to, String subject, String content, String cc)  {
 

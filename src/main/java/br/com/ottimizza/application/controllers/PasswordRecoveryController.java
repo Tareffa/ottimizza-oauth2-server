@@ -35,6 +35,7 @@ import br.com.ottimizza.application.model.user.User;
 import br.com.ottimizza.application.repositories.PasswordRecoveryRepository;
 import br.com.ottimizza.application.repositories.users.UsersRepository;
 import br.com.ottimizza.application.services.MailContentBuilder;
+import br.com.ottimizza.application.services.MailServices;
 // Services
 import br.com.ottimizza.application.services.SecurityService;
 
@@ -67,6 +68,9 @@ public class PasswordRecoveryController {
     
     @Inject
     TareffaClient tareffaClient;
+    
+    @Inject
+    MailServices mailServices;
 
     @GetMapping(value = "/password_reset") //@formatter:off
     public String passwordResetPage(@RequestParam(name = "username", defaultValue = "") String username, 
@@ -187,7 +191,9 @@ public class PasswordRecoveryController {
             helper.setText(content, true);
         };
         
-        mailSender.send(messagePreparator);
+//        mailSender.send(messagePreparator);
+        mailServices.send(user.getEmail(), subject, content); 
+
     }
 
 }
