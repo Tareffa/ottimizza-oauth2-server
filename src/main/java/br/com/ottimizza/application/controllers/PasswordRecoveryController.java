@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.client.utils.URIBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-// Spring - Mail
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 // Spring - Security
@@ -62,9 +59,6 @@ public class PasswordRecoveryController {
 
     @Inject
     private SecurityService securityService;
-
-    @Autowired
-    private JavaMailSender mailSender;
     
     @Inject
     TareffaClient tareffaClient;
