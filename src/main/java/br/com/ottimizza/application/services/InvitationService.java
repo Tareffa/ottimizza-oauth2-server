@@ -3,27 +3,15 @@ package br.com.ottimizza.application.services;
 import java.math.BigInteger;
 import java.security.Principal;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 
 import br.com.ottimizza.application.domain.dtos.models.invitation.InvitationDTO;
@@ -31,23 +19,15 @@ import br.com.ottimizza.application.domain.exceptions.OrganizationAlreadyRegiste
 import br.com.ottimizza.application.domain.exceptions.OrganizationNotFoundException;
 import br.com.ottimizza.application.domain.exceptions.users.UserNotFoundException;
 import br.com.ottimizza.application.domain.mappers.InvitationMapper;
-import br.com.ottimizza.application.domain.responses.GenericResponse;
-import br.com.ottimizza.application.repositories.clients.OAuthClientRepository;
-import br.com.ottimizza.application.repositories.organizations.OrganizationRepository;
-/* ********************************** **
- * Entities
- * ********************************** */
-import br.com.ottimizza.application.model.OAuthClientAdditionalInformation;
-import br.com.ottimizza.application.model.OAuthClientDetails;
 import br.com.ottimizza.application.model.Organization;
 import br.com.ottimizza.application.model.user.User;
 import br.com.ottimizza.application.model.user_organization.UserOrganizationInvite;
-
+import br.com.ottimizza.application.repositories.UserOrganizationInviteRepository;
+import br.com.ottimizza.application.repositories.organizations.OrganizationRepository;
 /* ********************************** **
  * Repositories
  * ********************************** */
 import br.com.ottimizza.application.repositories.users.UsersRepository;
-import br.com.ottimizza.application.repositories.UserOrganizationInviteRepository;
 
 @Service // @formatter:off
 public class InvitationService {

@@ -28,3 +28,17 @@ HELP.md
 ### VS Code ###
 .vscode/
 /bin/
+
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+

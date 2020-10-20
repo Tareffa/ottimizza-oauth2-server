@@ -13,7 +13,6 @@ import br.com.ottimizza.application.domain.dtos.ProductDTO;
 import br.com.ottimizza.application.domain.exceptions.products.ProductNotFoundException;
 import br.com.ottimizza.application.domain.mappers.ProductMapper;
 import br.com.ottimizza.application.model.product.Product;
-import br.com.ottimizza.application.model.user.User;
 import br.com.ottimizza.application.repositories.products.ProductRepository;
 
 @Service

@@ -1,6 +1,5 @@
 package br.com.ottimizza.application.controllers;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.security.Principal;
 import java.text.MessageFormat;

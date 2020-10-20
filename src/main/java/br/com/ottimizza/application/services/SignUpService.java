@@ -1,7 +1,6 @@
 package br.com.ottimizza.application.services;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
