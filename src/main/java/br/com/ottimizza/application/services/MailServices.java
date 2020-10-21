@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
@@ -21,9 +20,6 @@ import lombok.Data;
 public class MailServices {
 
     private TemplateEngine templateEngine;
-
-    @Autowired
-    private JavaMailSender mailSender;
 
     @Autowired
     private MailSenderClient mailSenderClient;
@@ -78,9 +74,9 @@ public class MailServices {
     }
 
     public void send(Builder messageBuilder) {
-        mailSender.send(messageBuilder.build());
+    	
+    	sendAws("", "", messageBuilder.to, messageBuilder.subject, messageBuilder.content, "");
     }
-    
     
     public void sendAws(String from, String name, String to, String subject, String content, String cc)  {
 
