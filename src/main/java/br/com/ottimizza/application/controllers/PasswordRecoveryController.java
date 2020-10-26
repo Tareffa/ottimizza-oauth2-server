@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.client.utils.URIBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-// Spring - Mail
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 // Spring - Security
@@ -35,6 +32,7 @@ import br.com.ottimizza.application.model.user.User;
 import br.com.ottimizza.application.repositories.PasswordRecoveryRepository;
 import br.com.ottimizza.application.repositories.users.UsersRepository;
 import br.com.ottimizza.application.services.MailContentBuilder;
+import br.com.ottimizza.application.services.MailServices;
 // Services
 import br.com.ottimizza.application.services.SecurityService;
 
@@ -61,12 +59,12 @@ public class PasswordRecoveryController {
 
     @Inject
     private SecurityService securityService;
-
-    @Autowired
-    private JavaMailSender mailSender;
     
     @Inject
     TareffaClient tareffaClient;
+    
+    @Inject
+    MailServices mailServices;
 
     @GetMapping(value = "/password_reset") //@formatter:off
     public String passwordResetPage(@RequestParam(name = "username", defaultValue = "") String username, 
@@ -187,7 +185,9 @@ public class PasswordRecoveryController {
             helper.setText(content, true);
         };
         
-        mailSender.send(messagePreparator);
+//        mailSender.send(messagePreparator);
+        mailServices.send(user.getEmail(), subject, content); 
+
     }
 
 }
