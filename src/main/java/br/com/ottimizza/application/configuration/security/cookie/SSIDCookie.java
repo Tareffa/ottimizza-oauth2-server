@@ -50,7 +50,7 @@ public class SSIDCookie extends Cookie {
                 "");
         this.hmac = calculateHmac(this.payload, cookieHmacKey);
         this.setPath(PATH);
-        this.setMaxAge((int) Duration.of(1, ChronoUnit.HOURS).toSeconds());
+        // this.setMaxAge((int) Duration.of(1, ChronoUnit.HOURS).toSeconds());
         this.setHttpOnly(true);
     }
 
@@ -61,7 +61,7 @@ public class SSIDCookie extends Cookie {
                 "");
         this.hmac = calculateHmac(this.payload, cookieHmacKey);
         this.setPath(PATH);
-        this.setMaxAge((int) Duration.of(1, ChronoUnit.HOURS).toSeconds());
+        // this.setMaxAge((int) Duration.of(1, ChronoUnit.HOURS).toSeconds());
         this.setHttpOnly(true);
     }
 
