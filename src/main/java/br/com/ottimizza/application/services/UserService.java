@@ -96,8 +96,12 @@ public class UserService {
                 .map(UserDTO::fromEntityWithOrganization);
     }
 
-    public User create(User user, Principal principal) throws OrganizationNotFoundException, UserAlreadyRegisteredException, Exception {
-        user.setUpdatedBy(principal.getName());
+    public User create(User user, User authorizedUser) throws OrganizationNotFoundException, UserAlreadyRegisteredException, Exception {
+    	User checkUser = userRepository.findByEmailAndOrganizationId(user.getEmail(), authorizedUser.getOrganization().getId());
+    	if(checkUser != null) {
+    		return checkUser;
+    	}
+    	user.setUpdatedBy(authorizedUser.getEmail());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         checkIfEmailIsAlreadyRegistered(user);
         return userRepository.save(user);
@@ -116,11 +120,11 @@ public class UserService {
             } else {
                 user.setOrganization(accounting);
             }
-            return UserDTO.fromEntity(create(user, principal));
+            return UserDTO.fromEntity(create(user, authorizedUser));
         } else {
             user.setOrganization(authorizedUser.getOrganization());
         }
-        return UserDTO.fromEntity(create(user, principal));
+        return UserDTO.fromEntity(create(user, authorizedUser));
     }
 
     public UserDTO upsert(UserDTO userDTO, Principal principal) throws UserNotFoundException, Exception {
@@ -136,7 +140,7 @@ public class UserService {
                     user.setType(User.Type.ADMINISTRATOR);
                     user.setOrganization(authorizedUser.getOrganization());
                 }
-                return UserDTO.fromEntity(create(user, principal));
+                return UserDTO.fromEntity(create(user, authorizedUser));
             } else {
                 user.setOrganization(authorizedUser.getOrganization());
             }
@@ -409,7 +413,7 @@ public class UserService {
                             .type(User.Type.ACCOUNTANT)
                             .organization(accounting).build();
 
-                        accountant = create(accountant, principal);
+                        accountant = create(accountant, authorizedUser);
                     } else {
                         System.out.println("\n --- Contabilidade --- ");
                         System.out.println(MessageFormat.format(" Id: {0} ", accounting.getId()));
@@ -506,7 +510,7 @@ public class UserService {
                     } else {
                         // caso não exista, cria um novo usuário.
                         user.setPassword(object.getPassword());
-                        user = create(user, principal);
+                        user = create(user, authorizedUser);
 
                         if (user.getType().equals(User.Type.CUSTOMER)) {
                             try { userRepository.addOrganization(user.getId(), organization.getId());
