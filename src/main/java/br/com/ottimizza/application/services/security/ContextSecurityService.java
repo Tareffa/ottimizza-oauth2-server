@@ -32,9 +32,6 @@ import br.com.ottimizza.application.repositories.httpsession.HttpSessionReposito
 public class ContextSecurityService {
 
     @Autowired
-    private TokenStore jwtTokenStore;
-
-    @Autowired
     private CookieAuthenticationWrapper cookieAuthenticationWrapper;
 
     @Autowired
