@@ -1,6 +1,7 @@
 package br.com.ottimizza.application.controllers.authorize;
 
 import java.security.Principal;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/oauth")
 public class AuthorizationController {
 
+	@Value("${oauth2-config.client-id}")
+    private String OAUTH2_CLIENT_ID;
+	
+	@Value("${oauth2-config.default-success-redirect}")
+    private String DEFAULT_SUCCESS_REDIRECT;
+	
     @Autowired
     private ContextSecurityService contextSecurityService;
 
@@ -47,6 +55,13 @@ public class AuthorizationController {
             Principal principal) throws Exception {
         String ssid = contextSecurityService.getSSIDFromRequest(request);
 
+        List<String> oauthRequestParams = Arrays.asList("client_id", "response_type", "redirect_uri");
+        
+        if (!request.getParameterMap().keySet().containsAll(oauthRequestParams)) {
+        	String queryString = MessageFormat.format("client_id={0}&response_type=code&redirect_uri={1}",OAUTH2_CLIENT_ID, DEFAULT_SUCCESS_REDIRECT);
+            return "redirect:/oauth/authorize/oauthchooseaccount?" + queryString;
+        }
+        
         if (ssid != null) {
             // session principals with user details (*)
             List<AuthenticatedAccountDetails> authenticatedAccounts = httpSessionPrincipalsRepository
