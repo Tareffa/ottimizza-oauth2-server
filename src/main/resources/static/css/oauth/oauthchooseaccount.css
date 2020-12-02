@@ -82,8 +82,8 @@
 }
 
 .oauthuser-details .avatar {
-  min-width: 40px;
-  display: flex;
+  /* min-width: 40px;
+  display: flex; */
   margin-right: .75rem;
 }
 
