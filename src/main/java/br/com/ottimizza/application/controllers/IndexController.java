@@ -25,6 +25,9 @@ import br.com.ottimizza.application.services.security.ContextSecurityService;
 @Controller
 public class IndexController {
 
+    @Value("${backgroundColor}")
+    private String BACKGROUND_COLOR;
+
     @Inject
     UsersRepository userRepository;
 
@@ -44,6 +47,8 @@ public class IndexController {
                     .findAuthenticatedAccountDetailsBySessionId(UUID.fromString(ssid));
             model.addAttribute("authenticatedAccounts", authenticatedAccounts);
         }
+        model.addAttribute("backgroundColor", BACKGROUND_COLOR);
+        
         return "index.html";
     }
 

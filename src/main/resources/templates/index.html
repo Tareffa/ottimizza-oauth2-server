@@ -87,6 +87,16 @@
   </div>
   </div>
 
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    
+      var colorOfBackground = /*[[${backgroundColor}]]*/ '004ecb'
+      const body = window.document.querySelector('body');
+      body.style.backgroundColor = colorOfBackground;
+    
+    /*]]>*/
+  </script>
+
   <script>
     const LOGIN_FORM_URL = '/login';
     const REDIRECT_PARAM = "redirect";
