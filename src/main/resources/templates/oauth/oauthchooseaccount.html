@@ -20,7 +20,7 @@
 </head>
 
 
-<body th:style="${backgroundColor} == 'ottimizza' ? 'background-color: #004ecb' : 'background-color: rgb(75, 66, 121)' ">
+<body>
 
   <div class="page-wrapper">
     <div class="form-container">
@@ -83,6 +83,10 @@
   </div>
 
   <script>
+    var colorOfBackground = /*[[${backgroundColor}]]*/ '004ecb'
+    const body = window.document.querySelector('body');
+    body.style += ` background-color: ${}`
+
     function getParameter(paramName) {
       var searchString = window.location.search.substring(1),
         i, val, params = searchString.split("&");
