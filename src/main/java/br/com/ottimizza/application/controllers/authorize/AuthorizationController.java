@@ -72,7 +72,7 @@ public class AuthorizationController {
 
             model.addAttribute("authenticatedAccounts", authenticatedAccounts);
         }
-        model.addAttribute("backgroundColor", BACKGROUND_COLOR)
+        model.addAttribute("backgroundColor", BACKGROUND_COLOR);
 
         return "oauth/oauthchooseaccount.html";
     }
