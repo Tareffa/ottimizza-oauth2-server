@@ -73,6 +73,9 @@ public class UserService {
 
     @Value("${roles}")
     private String ROLES;
+    
+    @Value("${application-id}")
+    private String APPLICATION_ID;
 
     public User findById(BigInteger id) throws UserNotFoundException, Exception {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found."));
@@ -100,7 +103,13 @@ public class UserService {
         user.setUpdatedBy(principal.getName());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         checkIfEmailIsAlreadyRegistered(user);
-        return userRepository.save(user);
+        User usuario = userRepository.save(user);
+        if(APPLICATION_ID.equals("tareffa")) {
+        	userProductsRepository.saveUserProductsTareffa(usuario.getId());
+        	
+        }
+        
+        return usuario;
     }
 
     public UserDTO create(UserDTO userDTO, Principal principal) // @formatter:off

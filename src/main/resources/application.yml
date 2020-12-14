@@ -82,6 +82,8 @@ portal:
 accountingDepartments: ${USER_DEFAULT_DEPARTMENTS:fiscal, contábil, depto pessoal, financeiro, administrativo, legalização, diretoria}
 roles: ${USER_DEFAULT_ROLES:contador, gestor, diretor}
 
+application-id: ${APPLICATION_ID:Ottimizza}
+
 security:
   jwt:
     key-store: classpath:keystore/store/ottimizza.jks
