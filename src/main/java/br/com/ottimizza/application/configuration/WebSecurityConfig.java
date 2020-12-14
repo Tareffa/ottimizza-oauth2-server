@@ -1,5 +1,9 @@
 package br.com.ottimizza.application.configuration;
 
+import br.com.ottimizza.application.configuration.security.CustomSecurityContextRepository;
+import br.com.ottimizza.application.configuration.security.cookie.SSIDCookie;
+import br.com.ottimizza.application.configuration.security.login.LoginWithTargetUrlAuthenticationEntryPoint;
+import br.com.ottimizza.application.configuration.security.login.RedirectToOriginalUrlAuthenticationSuccessHandler;
 import br.com.ottimizza.application.services.impl.UserDetailsService;
 
 import java.util.Arrays;
@@ -21,6 +25,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity(debug = false)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    public static final String LOGIN_FORM_URL = "/login";
+    public static final String TARGET_AFTER_SUCCESSFUL_LOGIN_PARAM = "redirect";
+
     @Value("${oauth2-config.default-success-redirect}")
     private String DEFAULT_SUCCESS_URL;
 
@@ -29,6 +36,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    //
+    //
+    //
+    @Autowired
+    private CustomSecurityContextRepository customSecurityContextRepository;
+
+    @Autowired
+    private LoginWithTargetUrlAuthenticationEntryPoint loginWithTargetUrlAuthenticationEntryPoint;
+
+    @Autowired
+    private RedirectToOriginalUrlAuthenticationSuccessHandler redirectToOriginalUrlAuthenticationSuccessHandler;
 
     @Bean
     @Override
@@ -79,18 +98,40 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String USERINFO_URL = "/oauth/userinfo";
         String INFO_URL = "/oauth/info";
 
-
         http
-            .csrf().disable()
-            .authorizeRequests()
-                .antMatchers("/user/**", "/api/**", USERINFO_URL, TOKENINFO_URL, INFO_URL).permitAll() 
-                .anyRequest().authenticated()
+            // deactivate session creation
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().csrf().disable()
+            // store SecurityContext in Cookie / delete Cookie on logout
+            .securityContext()
+                .securityContextRepository(customSecurityContextRepository)
+            .and().logout().permitAll().deleteCookies(SSIDCookie.NAME)
+
+            // deactivate RequestCache and append originally requested URL as query parameter to login form request
+            .and().requestCache().disable()
+            .exceptionHandling().authenticationEntryPoint(loginWithTargetUrlAuthenticationEntryPoint)
+
+            // configure form-based login
             .and()
-                .formLogin()
-                .loginPage("/login")
-                // .defaultSuccessUrl(DEFAULT_SUCCESS_URL, false)
-                // .success
-                .permitAll()
+            .formLogin()
+            .loginPage(LOGIN_FORM_URL).permitAll()
+            // after successful login forward user to originally requested URL
+            .successHandler(redirectToOriginalUrlAuthenticationSuccessHandler);
+        http
+
+            .authorizeRequests()
+                .antMatchers("/login**", "/user/**", "/api/**", USERINFO_URL, TOKENINFO_URL, INFO_URL).permitAll() 
+                .anyRequest().authenticated()
+            // .and()
+            //     .formLogin()
+            //     .loginPage("/login")
+            //     // .defaultSuccessUrl(DEFAULT_SUCCESS_URL, false)
+            //     // .success
+            //     .permitAll()
+                    
+            //     // after successful login forward user to originally requested URL
+            //     .successHandler(redirectToOriginalUrlAuthenticationSuccessHandler)
+
             .and()
                 .logout()
                 .invalidateHttpSession(true)

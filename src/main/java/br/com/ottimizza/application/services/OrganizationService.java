@@ -233,7 +233,7 @@ public class OrganizationService {
         checkRequiredFields(organization);
 
         // remove formatacao do cnpj.
-        organization.setCnpj(organization.getCnpj().replace("\\D+", ""));
+        organization.setCnpj(organization.getCnpj().replaceAll("\\D+", ""));
 
         checkIfOrganizationIsNotParentOfItself(organization);
         checkIfOrganizationIsNotAlreadyRegistered(organization);
@@ -247,7 +247,7 @@ public class OrganizationService {
         Organization current = organizationDTO.patch(findById(id, authenticated));
 
         // remove formatacao do cnpj.
-        current.setCnpj(current.getCnpj().replace("\\D+", ""));
+        current.setCnpj(current.getCnpj().replaceAll("\\D+", ""));
 
         checkIfOrganizationIsNotAlreadyRegistered(current);
         return OrganizationMapper.fromEntity(organizationRepository.save(current));

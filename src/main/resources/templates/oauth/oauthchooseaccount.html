@@ -15,7 +15,7 @@
     href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/oauth/oauthchooseaccount.css}">
   <link rel="stylesheet" type="text/css" th:href="@{/css/global.css}">
 </head>
 
@@ -24,7 +24,12 @@
   <div class="page-wrapper">
     <div class="form-container">
       <div class="form-header" style="text-align: center;">
-        Gerenciamento de Contas
+        <h1 class="title-1">
+          <span>Escolha uma conta</span>
+        </h1>
+        <div id="header-subtitle" class="title-2 hidden">
+          <span>para prosseguir para <a id="redirect-uri">app.tareffa.com.br</a></span>
+        </div>
       </div>
       <form class="form-body" method="post" action="/switch">
         <ul class="oauthusers">
@@ -51,20 +56,12 @@
                 </a>
               </div>
             </div>
-            <div class="oauthuser-actions">
-              <div class="action">
-                <a th:data-oauthuser="${authenticatedAccount.alias}" class="button"
-                  style="margin: 4px;padding: 4px 10px;font-size: 12px; " onclick="oauthSingleUserLogout(this)">
-                  Remover
-                </a>
-              </div>
-            </div>
           </li>
           <li id="add-oauthuser" class="oauthuser">
             <div class="oauthuser-details" style="border: none;padding: 0.5rem 0;">
               <div class="avatar">
                 <img src="https://cdn.iconscout.com/icon/free/png-512/add-person-1767897-1502150.png" width="40"
-                  height="40" class="img-thumbnail rounded-circle" style="padding: 9px 9px;border: none"></a>
+                  height="40" class="img-thumbnail rounded-circle" style="border: none"></a>
               </div>
               <div class="details">
                 <div class="name" style="font-size: 14px;">
@@ -75,12 +72,9 @@
           </li>
         </ul>
       </form>
-      <div class="card-footer" style="flex-direction: column;">
-        <a class="button" style="margin: 16px;margin-bottom: 8px;" href="/oauth/authorize/oauthchooseaccount">
-          Ir para o Portal
-        </a>
-        <a class="button" style="margin: 16px;margin-top: 8px" href="/logout">
-          Sair de todas as contas
+      <div class="card-footer">
+        <a class="button" style="margin: 16px; " href="/" target="_blank">
+          Gerenciar contas
         </a>
       </div>
     </div>
@@ -88,8 +82,38 @@
   </div>
 
   <script>
+    function getParameter(paramName) {
+      var searchString = window.location.search.substring(1),
+        i, val, params = searchString.split("&");
+
+      for (i = 0; i < params.length; i++) {
+        val = params[i].split("=");
+        if (val[0] == paramName) {
+          return val[1];
+        }
+      }
+      return null;
+    }
+
     const LOGIN_FORM_URL = '/login';
     const REDIRECT_PARAM = "redirect";
+
+
+    function validateRedirectUri() {
+      let redirectUriString = getParameter('redirect_uri');
+
+      if (redirectUriString != null) {
+        let redirectUri = new URL(redirectUriString);
+
+        let subtitleElement = document.getElementById('header-subtitle');
+        let redirectElement = document.getElementById('redirect-uri');
+
+        subtitleElement.classList.remove('hidden');
+        redirectElement.text = redirectUri.origin;
+      }
+    }
+
+    validateRedirectUri();
 
 
     /**
@@ -128,26 +152,29 @@
     const SHOW_OAUTHUSER_ACTION_CLASS = 'show-actions';
 
     elements.forEach(function (element) {
+      const QUERYSTRING = window.location.search;
       const IDENTIFIER = element.getAttribute('data-identifier');
       const XOAUTHUSER = element.getAttribute('data-alias');
 
       element.addEventListener('click', () => {
-        const classname = SHOW_OAUTHUSER_ACTION_CLASS;
-        // 
-        if (element.classList.contains(classname)) {
-          clearClass(elements, SHOW_OAUTHUSER_ACTION_CLASS);
-        } else {
-          clearClass(elements, SHOW_OAUTHUSER_ACTION_CLASS);
-          element.classList.add(SHOW_OAUTHUSER_ACTION_CLASS);
-        }
+        post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
+          'oauthuser': XOAUTHUSER
+        });
       });
+    });
+
+    addAuthenticatedAccountElement.addEventListener('click', () => {
+      let pathname = window.location.pathname.replace('/oauthchooseaccount', '');
+      let search = window.location.search;
+      let redirect = encodeURIComponent(`${pathname}${search}`);
+
+      window.location.href = `${LOGIN_FORM_URL}?${REDIRECT_PARAM}=${redirect}`;
     });
 
     let oauthSingleUserLogout = ((element) => {
       const OAUTHUSER = element.getAttribute('data-oauthuser');
       post(`/oauth/${OAUTHUSER}/logout`, {});
     });
-
 
     let clearClass = ((elements, classname) => {
       elements.forEach((element) => {
@@ -159,11 +186,6 @@
       element.classList.contains(classname) ?
         element.classList.remove(classname)
         : element.classList.add(classname);
-    });
-
-
-    addAuthenticatedAccountElement.addEventListener('click', () => {
-      window.location.href = `${LOGIN_FORM_URL}?${REDIRECT_PARAM}=${window.location.pathname}`;
     });
 
   </script>

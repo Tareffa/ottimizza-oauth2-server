@@ -1,0 +1,136 @@
+.page-wrapper {
+  /* background-color: #26A69A; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/*  */
+
+
+/*  */
+
+
+/*  */
+
+
+/*  */
+
+
+/*  */
+
+.form-container {
+  max-width: 420px;
+  min-width: 360px;
+  /* max-height: 60%; */
+  /* height: 480px; */
+  margin: 1.5rem;
+  /* padding: 1.75rem 1.75rem; */
+  border: 1px solid #d7d7d7;
+  border-radius: 4px;
+  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.4);
+  background: #fff;
+}
+
+.form-container > .form-header {
+  padding: 1rem 1.75rem;
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.form-container > .form-body {
+  /* padding: 1rem 0rem; */
+  /* border-bottom: 1px solid #d7d7d7; */
+}
+
+.oauthusers {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  /* border-top: 1px solid #d7d7d7; */
+  border-bottom: 1px solid #d7d7d7;
+}
+
+
+/* LI */
+
+.oauthusers .oauthuser {
+  margin: 0;
+}
+
+.oauthusers .oauthuser:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: all .35s;
+  cursor: pointer;
+}
+
+.oauthusers .oauthuser.show-actions {
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: all .35s;
+  cursor: pointer;
+}
+
+.oauthuser-details {
+  display: flex;
+  flex: auto;
+  align-items: center;
+  margin: 0 1.75rem;
+  padding: 0.75rem 0;
+  /* border-bottom: 1px solid #d7d7d7; */
+}
+
+.oauthuser-details .avatar {
+  min-width: 40px;
+  display: flex;
+  margin-right: .75rem;
+}
+
+.oauthuser-details .action {
+  text-align: center;
+  display: flex;
+  margin: 0 .75rem;
+}
+
+.oauthuser-details .details {
+  flex: auto;
+  display: flex;
+  flex-flow: column;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.oauthuser-details .details .name {
+  color: #3c4043;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: .25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.oauthuser-details .details .username {
+  color: #5f6368;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.oauthuser > .oauthuser-actions {
+  height: 0;
+  display: none;
+  overflow: hidden;
+  flex: auto;
+  align-items: center;
+  justify-content: end;
+  margin: 0 1.75rem;
+  padding: 0.25rem 3rem;
+  padding-bottom: 1.5rem;
+  transition: all .3s;
+}
+
+.oauthuser.show-actions > .oauthuser-actions {
+  height: auto;
+  display: flex;
+}

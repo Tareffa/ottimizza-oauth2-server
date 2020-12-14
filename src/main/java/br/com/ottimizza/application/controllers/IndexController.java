@@ -1,17 +1,26 @@
 package br.com.ottimizza.application.controllers;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import br.com.ottimizza.application.domain.projections.AuthenticatedAccountDetails;
 import br.com.ottimizza.application.model.Organization;
+import br.com.ottimizza.application.repositories.httpsession.HttpSessionPrincipalsRepository;
 import br.com.ottimizza.application.repositories.users.UsersRepository;
+import br.com.ottimizza.application.services.security.ContextSecurityService;
 
 @Controller
 public class IndexController {
@@ -19,13 +28,23 @@ public class IndexController {
     @Inject
     UsersRepository userRepository;
 
-    @GetMapping("/")
-    public String index(Principal principal, Model model) {
-        // find user by username.
-        model.addAttribute("authorizedUser", userRepository.findByEmail(principal.getName()));
+    @Autowired
+    private ContextSecurityService contextSecurityService;
 
-        model.addAttribute("organization", new Organization());
-        return "organizations/organizations.html";
+    @Autowired
+    private HttpSessionPrincipalsRepository httpSessionPrincipalsRepository;
+
+    @GetMapping("/")
+    public String indexPage(Model model, Principal principal, HttpSession session, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String ssid = contextSecurityService.getSSIDFromRequest(request);
+
+        if (ssid != null) {
+            List<AuthenticatedAccountDetails> authenticatedAccounts = httpSessionPrincipalsRepository
+                    .findAuthenticatedAccountDetailsBySessionId(UUID.fromString(ssid));
+            model.addAttribute("authenticatedAccounts", authenticatedAccounts);
+        }
+        return "index.html";
     }
 
     /**
