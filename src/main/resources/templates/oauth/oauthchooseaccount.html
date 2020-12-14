@@ -20,7 +20,7 @@
 </head>
 
 
-<body th:style="background-color: @{${backgroundColor}};">
+<body th:style="${backgroundColor} == 'ottimizza' ? 'background-color: #004ecb' : 'background-color: rgb(75, 66, 121)' ">
 
   <div class="page-wrapper">
     <div class="form-container">
