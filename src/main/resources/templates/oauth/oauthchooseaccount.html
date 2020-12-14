@@ -85,7 +85,7 @@
   <script>
     var colorOfBackground = /*[[${backgroundColor}]]*/ '004ecb'
     const body = window.document.querySelector('body');
-    body.style += ` background-color: ${colorOfBackground}`
+    body.style.backgroundColor = colorOfBackground;
 
     function getParameter(paramName) {
       var searchString = window.location.search.substring(1),
