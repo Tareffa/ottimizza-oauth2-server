@@ -82,10 +82,18 @@
   </div>
   </div>
 
-  <script>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    
     var colorOfBackground = /*[[${backgroundColor}]]*/ '004ecb'
     const body = window.document.querySelector('body');
     body.style.backgroundColor = colorOfBackground;
+    
+    /*]]>*/
+    </script>
+
+  <script>
+
 
     function getParameter(paramName) {
       var searchString = window.location.search.substring(1),
