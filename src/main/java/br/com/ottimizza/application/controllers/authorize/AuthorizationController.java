@@ -31,6 +31,9 @@ public class AuthorizationController {
 
 	@Value("${oauth2-config.client-id}")
     private String OAUTH2_CLIENT_ID;
+
+    @Value("${backgroundColor}")
+    private String BACKGROUND_COLOR;
 	
 	@Value("${oauth2-config.default-success-redirect}")
     private String DEFAULT_SUCCESS_REDIRECT;
@@ -69,6 +72,7 @@ public class AuthorizationController {
 
             model.addAttribute("authenticatedAccounts", authenticatedAccounts);
         }
+        model.addAttribute("backgroundColor", BACKGROUND_COLOR)
 
         return "oauth/oauthchooseaccount.html";
     }
