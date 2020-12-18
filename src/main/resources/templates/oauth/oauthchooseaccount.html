@@ -52,31 +52,33 @@
             });
           });
        -->
-          <li style="width: 100%; background: white; border: none" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
-            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" onclick="login(this)">
-            <div class="oauthuser-details">
-              <div class="avatar">
-                <img th:src="${authenticatedAccount.avatar}"
-                  onerror="this.onerror=null;this.src='/assets/img/portrait/avatars/portrait.png';" width="40"
-                  height="40" class="img-thumbnail rounded-circle">
-              </div>
-              <div class="details">
-                <div class="name">
-                  <span th:text="${authenticatedAccount.firstName}"></span>
-                  <span th:text="${authenticatedAccount.lastName}"></span>
+          <li class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
+            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
+            <a href="">
+              <div class="oauthuser-details">
+                <div class="avatar">
+                  <img th:src="${authenticatedAccount.avatar}"
+                    onerror="this.onerror=null;this.src='/assets/img/portrait/avatars/portrait.png';" width="40"
+                    height="40" class="img-thumbnail rounded-circle">
                 </div>
-                <div class="username">
-                  <small th:text="${authenticatedAccount.username}"></small>
+                <div class="details">
+                  <div class="name">
+                    <span th:text="${authenticatedAccount.firstName}"></span>
+                    <span th:text="${authenticatedAccount.lastName}"></span>
+                  </div>
+                  <div class="username">
+                    <small th:text="${authenticatedAccount.username}"></small>
+                  </div>
+                </div>
+                <div class="action" style="display: none;">
+                  <a class="button" style="margin: 4px;padding: 4px 10px;font-size: 12px; " href="/logout">
+                    <i class="fa fa-caret-down"></i>
+                  </a>
                 </div>
               </div>
-              <div class="action" style="display: none;">
-                <a class="button" style="margin: 4px;padding: 4px 10px;font-size: 12px; " href="/logout">
-                  <i class="fa fa-caret-down"></i>
-                </a>
-              </div>
-            </div>
+            </a>
           </li>
-          <li style="width: 100%; background: white; border: none" id="add-oauthuser" class="oauthuser" onclick="login(this)">
+          <li id="add-oauthuser" class="oauthuser">
             <div class="oauthuser-details" style="border: none;padding: 0.5rem 0;">
               <div class="avatar">
                 <img src="https://cdn.iconscout.com/icon/free/png-512/add-person-1767897-1502150.png" width="40"
@@ -182,30 +184,18 @@
 
     const SHOW_OAUTHUSER_ACTION_CLASS = 'show-actions';
 
-    function login(event) {
-      event.preventDefault();
-
+    elements.forEach(function (element) {
       const QUERYSTRING = window.location.search;
-      const IDENTIFIER = event.target.getAttribute('data-identifier');
-      const XOAUTHUSER = event.target.getAttribute('data-alias');
+      const IDENTIFIER = element.getAttribute('data-identifier');
+      const XOAUTHUSER = element.getAttribute('data-alias');
 
-      post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
-        'oauthuser': XOAUTHUSER
+      element.addEventListener('click', (e) => {
+        e.preventDefault();
+        post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
+          'oauthuser': XOAUTHUSER
+        });
       });
-    }
-
-    // elements.forEach(function (element) {
-    //   const QUERYSTRING = window.location.search;
-    //   const IDENTIFIER = element.getAttribute('data-identifier');
-    //   const XOAUTHUSER = element.getAttribute('data-alias');
-
-    //   element.addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
-    //       'oauthuser': XOAUTHUSER
-    //     });
-    //   });
-    // });
+    });
 
     addAuthenticatedAccountElement.addEventListener('click', (e) => {
       e.preventDefault();
