@@ -52,9 +52,8 @@
             });
           });
        -->
-          <li class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
+          <li role="button" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
             th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
-            <a href="">
               <div class="oauthuser-details">
                 <div class="avatar">
                   <img th:src="${authenticatedAccount.avatar}"
@@ -76,7 +75,6 @@
                   </a>
                 </div>
               </div>
-            </a>
           </li>
           <li id="add-oauthuser" class="oauthuser">
             <div class="oauthuser-details" style="border: none;padding: 0.5rem 0;">
