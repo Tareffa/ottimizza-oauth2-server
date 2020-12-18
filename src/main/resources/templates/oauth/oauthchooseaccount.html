@@ -32,8 +32,8 @@
           <span>para prosseguir para <a id="redirect-uri">app.tareffa.com.br</a></span>
         </div>
       </div>
-      <form class="form-body">
-      <!-- <form class="form-body" method="post" action="/switch"> -->
+      <!-- <form class="form-body"> -->
+      <form class="form-body" method="post" action="/switch">
         <ul class="oauthusers">
           <!-- let elements = document.querySelectorAll('.oauthuser');
           let addAuthenticatedAccountElement = document.querySelector('#add-oauthuser');
@@ -52,8 +52,8 @@
             });
           });
        -->
-          <button style="width: 100%; background: white; border: none" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
-            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
+          <li style="width: 100%; background: white; border: none" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
+            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" onclick="login(this)">
             <div class="oauthuser-details">
               <div class="avatar">
                 <img th:src="${authenticatedAccount.avatar}"
@@ -75,8 +75,8 @@
                 </a>
               </div>
             </div>
-          </button>
-          <button style="width: 100%; background: white; border: none" id="add-oauthuser" class="oauthuser">
+          </li>
+          <li style="width: 100%; background: white; border: none" id="add-oauthuser" class="oauthuser" onclick="login(this)">
             <div class="oauthuser-details" style="border: none;padding: 0.5rem 0;">
               <div class="avatar">
                 <img src="https://cdn.iconscout.com/icon/free/png-512/add-person-1767897-1502150.png" width="40"
@@ -88,7 +88,7 @@
                 </div>
               </div>
             </div>
-          </button>
+          </li>
         </ul>
       </form>
       <div class="card-footer">
@@ -182,18 +182,30 @@
 
     const SHOW_OAUTHUSER_ACTION_CLASS = 'show-actions';
 
-    elements.forEach(function (element) {
-      const QUERYSTRING = window.location.search;
-      const IDENTIFIER = element.getAttribute('data-identifier');
-      const XOAUTHUSER = element.getAttribute('data-alias');
+    function login(event) {
+      event.preventDefault();
 
-      element.addEventListener('click', (e) => {
-        e.preventDefault();
-        post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
-          'oauthuser': XOAUTHUSER
-        });
+      const QUERYSTRING = window.location.search;
+      const IDENTIFIER = event.target.getAttribute('data-identifier');
+      const XOAUTHUSER = event.target.getAttribute('data-alias');
+
+      post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
+        'oauthuser': XOAUTHUSER
       });
-    });
+    }
+
+    // elements.forEach(function (element) {
+    //   const QUERYSTRING = window.location.search;
+    //   const IDENTIFIER = element.getAttribute('data-identifier');
+    //   const XOAUTHUSER = element.getAttribute('data-alias');
+
+    //   element.addEventListener('click', (e) => {
+    //     e.preventDefault();
+    //     post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
+    //       'oauthuser': XOAUTHUSER
+    //     });
+    //   });
+    // });
 
     addAuthenticatedAccountElement.addEventListener('click', (e) => {
       e.preventDefault();
