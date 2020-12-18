@@ -32,7 +32,8 @@
           <span>para prosseguir para <a id="redirect-uri">app.tareffa.com.br</a></span>
         </div>
       </div>
-      <form class="form-body" method="post" action="/switch">
+      <form class="form-body">
+      <!-- <form class="form-body" method="post" action="/switch"> -->
         <ul class="oauthusers">
           <!-- let elements = document.querySelectorAll('.oauthuser');
           let addAuthenticatedAccountElement = document.querySelector('#add-oauthuser');
@@ -186,14 +187,16 @@
       const IDENTIFIER = element.getAttribute('data-identifier');
       const XOAUTHUSER = element.getAttribute('data-alias');
 
-      element.addEventListener('click', () => {
+      element.addEventListener('click', (e) => {
+        e.preventDefault();
         post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
           'oauthuser': XOAUTHUSER
         });
       });
     });
 
-    addAuthenticatedAccountElement.addEventListener('click', () => {
+    addAuthenticatedAccountElement.addEventListener('click', (e) => {
+      e.preventDefault();
       let pathname = window.location.pathname.replace('/oauthchooseaccount', '');
       let search = window.location.search;
       let redirect = encodeURIComponent(`${pathname}${search}`);
