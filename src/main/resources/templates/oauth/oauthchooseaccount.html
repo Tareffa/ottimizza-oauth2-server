@@ -51,7 +51,7 @@
             });
           });
        -->
-          <button style="width: 100%; background: white; border: none" onclick="console.log('Logging in')" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
+          <button style="width: 100%; background: white; border: none" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
             th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
             <div class="oauthuser-details">
               <div class="avatar">
@@ -75,7 +75,7 @@
               </div>
             </div>
           </button>
-          <button style="width: 100%; background: white; border: none" onclick="console.log('Logging in')" id="add-oauthuser" class="oauthuser">
+          <button style="width: 100%; background: white; border: none" id="add-oauthuser" class="oauthuser">
             <div class="oauthuser-details" style="border: none;padding: 0.5rem 0;">
               <div class="avatar">
                 <img src="https://cdn.iconscout.com/icon/free/png-512/add-person-1767897-1502150.png" width="40"
