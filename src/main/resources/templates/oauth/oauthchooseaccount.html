@@ -57,7 +57,8 @@
               console.log(event);
               console.log(event.target);
               event.preventDefault();
-              const element = event.target;
+              // const element = event.target;
+              const element = document.querySelector('li.oauthuser')
               const QUERYSTRING = window.location.search;
               const IDENTIFIER = element.getAttribute('data-identifier');
               const XOAUTHUSER = element.getAttribute('data-alias');
