@@ -55,7 +55,7 @@
           });
        -->
           <button id="jubiscreudi" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
-            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
+            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" th:onclick="'login(1)">
               <div class="oauthuser-details">
                 <div class="avatar">
                   <img th:src="${authenticatedAccount.avatar}"
