@@ -33,7 +33,7 @@
         </div>
       </div>
       <!-- <form class="form-body"> -->
-      <form class="form-body" method="POST" action="/">
+      <form class="form-body">
         <ul class="oauthusers">
           <!-- let elements = document.querySelectorAll('.oauthuser');
           let addAuthenticatedAccountElement = document.querySelector('#add-oauthuser');
@@ -112,10 +112,9 @@
 
   <script>
 
-    $('#jubiscreudi').on('click', ev => {
-      ev.preventDefault();
-      alert('Jaburou')
-    })
+
+    const jel = $('#jubiscreudi')
+    console.log(jel);
 
 
     function getParameter(paramName) {
