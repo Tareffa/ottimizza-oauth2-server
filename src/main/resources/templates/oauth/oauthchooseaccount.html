@@ -52,7 +52,7 @@
             });
           });
        -->
-          <button class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
+          <button id="jubiscreudi" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
             th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
               <div class="oauthuser-details">
                 <div class="avatar">
@@ -112,7 +112,7 @@
 
   <script>
 
-    $('button.oauthuser').on('click', ev => {
+    $('#jubiscreudi').on('click', ev => {
       ev.preventDefault();
       alert('Jaburou')
     })
