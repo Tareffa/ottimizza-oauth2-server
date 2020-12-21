@@ -22,6 +22,7 @@
 
 <body>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 
   <div class="page-wrapper">
     <div class="form-container">
@@ -53,11 +54,8 @@
             });
           });
        -->
-       <!--  <button th:onclick="'javascript:upload(' + ${gallery} + ')'"></button>
-            th:onclick="del(this,[[${quartzInfo.id}]]" type="button">
-        th:onclick="'upload('+${gallery}+')'" -->
-          <button class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
-            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" th:onclick="'javascript:login(2)'">
+          <button id="jubiscreudi" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
+            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
               <div class="oauthuser-details">
                 <div class="avatar">
                   <img th:src="${authenticatedAccount.avatar}"
