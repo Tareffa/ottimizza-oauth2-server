@@ -54,6 +54,7 @@
        -->
           <li role="button" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
             th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" onclick="
+              alert('ibirapuera')
               event.preventDefault();
               // const element = event.target;
               const element = document.querySelector('li.oauthuser')
