@@ -55,7 +55,7 @@
           <li role="button" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
             th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" onclick="
               console.log(event);
-              console.log(eevent.target);
+              console.log(event.target);
               event.preventDefault();
               const element = event.target;
               const QUERYSTRING = window.location.search;
