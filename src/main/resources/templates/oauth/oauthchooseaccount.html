@@ -22,6 +22,8 @@
 
 <body>
 
+  <button type="button" role="button"></button>
+
   <div class="page-wrapper">
     <div class="form-container">
       <div class="form-header" style="text-align: center;">
@@ -32,11 +34,13 @@
           <span>para prosseguir para <a id="redirect-uri">app.tareffa.com.br</a></span>
         </div>
       </div>
-      <input type="button" placeholder="Abacate asteca" onclick="login()">
-      <form class="form-body" method="post" action="/switch">
-        <input type="button" placeholder="Abacate asteca" onclick="login()">
+      <div class="form-body">
         <ul class="oauthusers">
-          <li class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
+          <form method="post" th:action="${actionUrl}" th:each="authenticatedAccount: ${authenticatedAccounts}">
+            <input type="text" name="oauthuser" th:value="${authenticatedAccount.alias}">
+            <button type="submit"></button>
+          </form>
+          <!-- <li class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
             th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
             <div class="oauthuser-details">
               <div class="avatar">
@@ -59,7 +63,7 @@
                 </a>
               </div>
             </div>
-          </li>
+          </li> -->
           <li id="add-oauthuser" class="oauthuser">
             <div class="oauthuser-details" style="border: none;padding: 0.5rem 0;">
               <div class="avatar">
@@ -74,7 +78,7 @@
             </div>
           </li>
         </ul>
-      </form>
+      </div>
       <div class="card-footer">
         <a class="button" style="margin: 16px; " href="/" target="_blank">
           Gerenciar usuários 

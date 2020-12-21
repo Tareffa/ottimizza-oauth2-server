@@ -61,7 +61,8 @@ public class AuthorizationController {
         List<String> oauthRequestParams = Arrays.asList("client_id", "response_type", "redirect_uri");
         
         if (!request.getParameterMap().keySet().containsAll(oauthRequestParams)) {
-        	String queryString = MessageFormat.format("client_id={0}&response_type=code&redirect_uri={1}",OAUTH2_CLIENT_ID, DEFAULT_SUCCESS_REDIRECT);
+            String queryString = MessageFormat.format("client_id={0}&response_type=code&redirect_uri={1}",OAUTH2_CLIENT_ID, DEFAULT_SUCCESS_REDIRECT);
+            model.addAttribute("actionUrl", "/oauth/authorize/oauthchooseaccount?" + queryString);
             return "redirect:/oauth/authorize/oauthchooseaccount?" + queryString;
         }
         
