@@ -33,7 +33,7 @@
         </div>
       </div>
       <!-- <form class="form-body"> -->
-      <form class="form-body">
+      <form class="form-body" method="POST" action="/">
         <ul class="oauthusers">
           <!-- let elements = document.querySelectorAll('.oauthuser');
           let addAuthenticatedAccountElement = document.querySelector('#add-oauthuser');
@@ -53,7 +53,7 @@
           });
        -->
           <button class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
-            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" onclick="(function(){login(event);})()">
+            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
               <div class="oauthuser-details">
                 <div class="avatar">
                   <img th:src="${authenticatedAccount.avatar}"
@@ -111,6 +111,11 @@
   </script>
 
   <script>
+
+    $('button.oauthuser').on('click', ev => {
+      ev.preventDefault();
+      alert('Jaburou')
+    })
 
 
     function getParameter(paramName) {
