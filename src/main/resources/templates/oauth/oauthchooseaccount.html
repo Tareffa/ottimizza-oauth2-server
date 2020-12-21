@@ -32,50 +32,32 @@
           <span>para prosseguir para <a id="redirect-uri">app.tareffa.com.br</a></span>
         </div>
       </div>
-      <!-- <form class="form-body"> -->
-      <form class="form-body">
+      <form class="form-body" method="post" action="/switch">
         <ul class="oauthusers">
-          <!-- let elements = document.querySelectorAll('.oauthuser');
-          let addAuthenticatedAccountElement = document.querySelector('#add-oauthuser');
-      
-          const SHOW_OAUTHUSER_ACTION_CLASS = 'show-actions';
-      
-          elements.forEach(function (element) {
-            const QUERYSTRING = window.location.search;
-            const IDENTIFIER = element.getAttribute('data-identifier');
-            const XOAUTHUSER = element.getAttribute('data-alias');
-      
-            element.addEventListener('click', () => {
-              post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
-                'oauthuser': XOAUTHUSER
-              });
-            });
-          });
-       -->
-          <button id="jubiscreudi" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
-            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" th:onclick="'login(1)">
-              <div class="oauthuser-details">
-                <div class="avatar">
-                  <img th:src="${authenticatedAccount.avatar}"
-                    onerror="this.onerror=null;this.src='/assets/img/portrait/avatars/portrait.png';" width="40"
-                    height="40" class="img-thumbnail rounded-circle">
+          <li class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
+            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" th:onclick="login()">
+            <div class="oauthuser-details">
+              <div class="avatar">
+                <img th:src="${authenticatedAccount.avatar}"
+                  onerror="this.onerror=null;this.src='/assets/img/portrait/avatars/portrait.png';" width="40"
+                  height="40" class="img-thumbnail rounded-circle">
+              </div>
+              <div class="details">
+                <div class="name">
+                  <span th:text="${authenticatedAccount.firstName}"></span>
+                  <span th:text="${authenticatedAccount.lastName}"></span>
                 </div>
-                <div class="details">
-                  <div class="name">
-                    <span th:text="${authenticatedAccount.firstName}"></span>
-                    <span th:text="${authenticatedAccount.lastName}"></span>
-                  </div>
-                  <div class="username">
-                    <small th:text="${authenticatedAccount.username}"></small>
-                  </div>
-                </div>
-                <div class="action" style="display: none;">
-                  <a class="button" style="margin: 4px;padding: 4px 10px;font-size: 12px; " href="/logout">
-                    <i class="fa fa-caret-down"></i>
-                  </a>
+                <div class="username">
+                  <small th:text="${authenticatedAccount.username}"></small>
                 </div>
               </div>
-          </button>
+              <div class="action" style="display: none;">
+                <a class="button" style="margin: 4px;padding: 4px 10px;font-size: 12px; " href="/logout">
+                  <i class="fa fa-caret-down"></i>
+                </a>
+              </div>
+            </div>
+          </li>
           <li id="add-oauthuser" class="oauthuser">
             <div class="oauthuser-details" style="border: none;padding: 0.5rem 0;">
               <div class="avatar">
@@ -100,7 +82,6 @@
   </div>
   </div>
 
-
   <script th:inline="javascript">
   /*<![CDATA[*/
   
@@ -112,6 +93,11 @@
   </script>
 
   <script>
+
+    function login() {
+      alert('jajaj')
+    }
+
 
     function getParameter(paramName) {
       var searchString = window.location.search.substring(1),
@@ -182,40 +168,19 @@
 
     const SHOW_OAUTHUSER_ACTION_CLASS = 'show-actions';
 
-    function login(event) {
-      event.preventDefault();
-      alert('ibirapuera')
-      // const element = event.target;
-      const element = document.querySelector('button.oauthuser')
-      alert(window.location.search);
-      alert(element.getAttribute('data-identifier'));
-      alert(element.getAttribute('data-alias'))
-      const QUERYSTRING = window.location.search;
-      const IDENTIFIER = element.getAttribute('data-identifier');
-      const XOAUTHUSER = element.getAttribute('data-alias');
-
-      console.log(QUERYSTRING, IDENTIFIER, XOAUTHUSER)
-
-      post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
-        'oauthuser': XOAUTHUSER
-      });
-    }
-
     // elements.forEach(function (element) {
     //   const QUERYSTRING = window.location.search;
     //   const IDENTIFIER = element.getAttribute('data-identifier');
     //   const XOAUTHUSER = element.getAttribute('data-alias');
 
-    //   element.addEventListener('click', (e) => {
-    //     e.preventDefault();
+    //   element.addEventListener('click', () => {
     //     post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
     //       'oauthuser': XOAUTHUSER
     //     });
     //   });
     // });
 
-    addAuthenticatedAccountElement.addEventListener('click', (e) => {
-      e.preventDefault();
+    addAuthenticatedAccountElement.addEventListener('click', () => {
       let pathname = window.location.pathname.replace('/oauthchooseaccount', '');
       let search = window.location.search;
       let redirect = encodeURIComponent(`${pathname}${search}`);
