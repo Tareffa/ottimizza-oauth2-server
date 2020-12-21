@@ -32,10 +32,12 @@
           <span>para prosseguir para <a id="redirect-uri">app.tareffa.com.br</a></span>
         </div>
       </div>
+      <input type="button" placeholder="Abacate asteca" onclick="login()">
       <form class="form-body" method="post" action="/switch">
+        <input type="button" placeholder="Abacate asteca" onclick="login()">
         <ul class="oauthusers">
           <li class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
-            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" th:onclick="login()">
+            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
             <div class="oauthuser-details">
               <div class="avatar">
                 <img th:src="${authenticatedAccount.avatar}"
