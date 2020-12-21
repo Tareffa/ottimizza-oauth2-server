@@ -34,8 +34,8 @@
       </div>
       <div class="form-body">
         <ul class="oauthusers">
-          <form class="oauthuser" style="position: relative; z-index: 9 !important;" method="post" th:action="${actionUrl}" th:each="authenticatedAccount: ${authenticatedAccounts}">
-            <button type="submit" style="z-index: 10 !important; position: absolute; width: 100%; height: 100%; background: none; border: none; outline: none;"></button>
+          <form class="oauthuser" style="position: relative; z-index: 9 !important; padding: 0.5rem 0;" method="post" th:action="${actionUrl}" th:each="authenticatedAccount: ${authenticatedAccounts}">
+            <button type="submit" style="z-index: 10 !important; cursor: pointer; position: absolute; width: 100%; height: 100%; background: none; border: none; outline: none;"></button>
             <input type="text" style="display: none;" name="oauthuser" th:value="${authenticatedAccount.alias}">
             <div class="avatar">
               <img th:src="${authenticatedAccount.avatar}"
