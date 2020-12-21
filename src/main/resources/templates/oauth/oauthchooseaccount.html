@@ -114,8 +114,10 @@
 
   <script>
 
-    const jel = $('#jubiscreudi')
-    console.log(jel);
+    $('#jubiscreudi')[0].on('click', ev => {
+      ev.preventDefault();
+      alert('Belgrado')
+    })
 
 
     function getParameter(paramName) {
