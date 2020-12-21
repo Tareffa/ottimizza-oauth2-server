@@ -184,6 +184,7 @@
 
     function login(e) {
       e.preventDefault();
+      const element = e.target;
       const QUERYSTRING = window.location.search;
       const IDENTIFIER = element.getAttribute('data-identifier');
       const XOAUTHUSER = element.getAttribute('data-alias');
