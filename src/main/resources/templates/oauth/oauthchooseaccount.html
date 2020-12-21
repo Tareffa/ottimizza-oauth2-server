@@ -53,7 +53,19 @@
           });
        -->
           <li role="button" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
-            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" onclick="login(event)">
+            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" onclick="e => {
+              console.log(e);
+              console.log(e.target);
+              e.preventDefault();
+              const element = e.target;
+              const QUERYSTRING = window.location.search;
+              const IDENTIFIER = element.getAttribute('data-identifier');
+              const XOAUTHUSER = element.getAttribute('data-alias');
+
+              post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
+                'oauthuser': XOAUTHUSER
+              });
+            }">
               <div class="oauthuser-details">
                 <div class="avatar">
                   <img th:src="${authenticatedAccount.avatar}"
