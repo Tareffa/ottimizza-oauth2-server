@@ -54,11 +54,12 @@
        -->
           <li role="button" class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
             th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" onclick="
-              console.log(event);
-              console.log(event.target);
               event.preventDefault();
               // const element = event.target;
               const element = document.querySelector('li.oauthuser')
+              alert(window.location.search)
+              alert(element.getAttribute('data-identifier'));
+              alert(element.getAttribute('data-alias'))
               const QUERYSTRING = window.location.search;
               const IDENTIFIER = element.getAttribute('data-identifier');
               const XOAUTHUSER = element.getAttribute('data-alias');
