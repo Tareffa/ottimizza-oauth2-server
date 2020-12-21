@@ -54,6 +54,9 @@
             });
           });
        -->
+       <!--  <button th:onclick="'javascript:upload(' + ${gallery} + ')'"></button>
+            th:onclick="del(this,[[${quartzInfo.id}]]" type="button">
+        th:onclick="'upload('+${gallery}+')'" -->
           <button class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
             th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" ng-click="funcaoBemLegal()">
               <div class="oauthuser-details">

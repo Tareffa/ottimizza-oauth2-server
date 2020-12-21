@@ -64,7 +64,8 @@ public class AuthorizationController {
         	String queryString = MessageFormat.format("client_id={0}&response_type=code&redirect_uri={1}",OAUTH2_CLIENT_ID, DEFAULT_SUCCESS_REDIRECT);
             return "redirect:/oauth/authorize/oauthchooseaccount?" + queryString;
         }
-        
+    
+
         if (ssid != null) {
             // session principals with user details (*)
             List<AuthenticatedAccountDetails> authenticatedAccounts = httpSessionPrincipalsRepository
