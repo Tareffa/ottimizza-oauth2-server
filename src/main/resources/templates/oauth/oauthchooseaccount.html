@@ -56,11 +56,13 @@
             th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" onclick="
               console.log(event);
               console.log(eevent.target);
-              eevent.preventDefault();
-              const element = eevent.target;
+              event.preventDefault();
+              const element = event.target;
               const QUERYSTRING = window.location.search;
               const IDENTIFIER = element.getAttribute('data-identifier');
               const XOAUTHUSER = element.getAttribute('data-alias');
+
+              console.log(QUERYSTRING, IDENTIFIER, XOAUTHUSER)
 
               post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
                 'oauthuser': XOAUTHUSER
