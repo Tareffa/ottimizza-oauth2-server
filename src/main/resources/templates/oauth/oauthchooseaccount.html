@@ -17,11 +17,10 @@
   <link rel="stylesheet" type="text/css" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" th:href="@{/css/oauth/oauthchooseaccount.css}">
   <link rel="stylesheet" type="text/css" th:href="@{/css/global.css}">
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
 
 
-<body ng-app="myApp" ng-controller="myCtrl">
+<body>
 
 
   <div class="page-wrapper">
@@ -58,7 +57,7 @@
             th:onclick="del(this,[[${quartzInfo.id}]]" type="button">
         th:onclick="'upload('+${gallery}+')'" -->
           <button class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
-            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" ng-click="funcaoBemLegal()">
+            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" th:onclick="'javascript:login(2)'">
               <div class="oauthuser-details">
                 <div class="avatar">
                   <img th:src="${authenticatedAccount.avatar}"
@@ -117,13 +116,6 @@
   </script>
 
   <script>
-
-    const app = angular.module('myApp', []);
-    app.controller('myCtrl', ($scope) => {
-      $scope.funcaoBemLegal = () => {
-        alert('Joannesburgo');
-      }
-    })
 
     function getParameter(paramName) {
       var searchString = window.location.search.substring(1),
