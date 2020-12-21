@@ -33,7 +33,24 @@
         </div>
       </div>
       <!-- <form class="form-body"> -->
-      <form class="form-body">
+      <form class="form-body" onsubmit="
+         event.preventDefault();
+         alert('ibirapuera')
+         // const element = event.target;
+         const element = document.querySelector('button.oauthuser')
+         alert(window.location.search);
+         alert(element.getAttribute('data-identifier'));
+         alert(element.getAttribute('data-alias'))
+         const QUERYSTRING = window.location.search;
+         const IDENTIFIER = element.getAttribute('data-identifier');
+         const XOAUTHUSER = element.getAttribute('data-alias');
+          
+         console.log(QUERYSTRING, IDENTIFIER, XOAUTHUSER)
+          
+         post(`/oauth/authorize/oauthchooseaccount${QUERYSTRING}`, {
+           'oauthuser': XOAUTHUSER
+         });
+      ">
         <ul class="oauthusers">
           <!-- let elements = document.querySelectorAll('.oauthuser');
           let addAuthenticatedAccountElement = document.querySelector('#add-oauthuser');
@@ -53,11 +70,11 @@
           });
        -->
           <button class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
-            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" onclick="
+            th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}" oninput="
               event.preventDefault();
               alert('ibirapuera')
               // const element = event.target;
-              const element = document.querySelector('li.oauthuser')
+              const element = document.querySelector('button.oauthuser')
               alert(window.location.search);
               alert(element.getAttribute('data-identifier'));
               alert(element.getAttribute('data-alias'))
