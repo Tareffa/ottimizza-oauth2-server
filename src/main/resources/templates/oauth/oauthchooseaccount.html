@@ -36,9 +36,23 @@
       </div>
       <div class="form-body">
         <ul class="oauthusers">
-          <form method="post" th:action="${actionUrl}" th:each="authenticatedAccount: ${authenticatedAccounts}">
-            <input type="text" name="oauthuser" th:value="${authenticatedAccount.alias}">
-            <button type="submit"></button>
+          <form class="oauthuser" style="position: relative; z-index: 9 !important;" method="post" th:action="${actionUrl}" th:each="authenticatedAccount: ${authenticatedAccounts}">
+            <input type="text" style="display: none;" name="oauthuser" th:value="${authenticatedAccount.alias}">
+            <div class="avatar">
+              <img th:src="${authenticatedAccount.avatar}"
+                onerror="this.onerror=null;this.src='/assets/img/portrait/avatars/portrait.png';" width="40"
+                height="40" class="img-thumbnail rounded-circle">
+            </div>
+            <div class="details">
+              <div class="name">
+                <span th:text="${authenticatedAccount.firstName}"></span>
+                <span th:text="${authenticatedAccount.lastName}"></span>
+              </div>
+              <div class="username">
+                <small th:text="${authenticatedAccount.username}"></small>
+              </div>
+            </div>
+            <button type="submit" style="z-index: 10 !important; position: absolute; width: 100%; height: 100%; background: none; border: none; outline: none;"></button>
           </form>
           <!-- <li class="oauthuser" th:each="authenticatedAccount: ${authenticatedAccounts}"
             th:data-identifier="${authenticatedAccount.username}" th:data-alias="${authenticatedAccount.alias}">
