@@ -83,6 +83,8 @@ accountingDepartments: ${USER_DEFAULT_DEPARTMENTS:fiscal, contábil, depto pesso
 roles: ${USER_DEFAULT_ROLES:contador, gestor, diretor}
 backgroundColor: ${SIGNIN_BACKGROUND:#004ecb}
 
+application-id: ${APPLICATION_ID:Ottimizza}
+
 security:
   jwt:
     key-store: classpath:keystore/store/ottimizza.jks

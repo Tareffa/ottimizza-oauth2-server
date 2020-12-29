@@ -50,4 +50,10 @@ public interface UserProductsRepository extends JpaRepository<UserProducts, User
     void deleteUserAuhtorities(@Param("userId") BigInteger userId, @Param("authorityId") String authorityId);
     
 
+    
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO users_products (fk_users_id , fk_products_id) SELECT :userId, id FROM products WHERE id IN (8,10)", nativeQuery = true)
+    void saveUserProductsTareffa(@Param("userId") BigInteger userId);
+    
 }
