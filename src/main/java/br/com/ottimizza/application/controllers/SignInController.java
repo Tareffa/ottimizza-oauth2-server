@@ -84,29 +84,40 @@ public class SignInController {
     @GetMapping("/login")
     public String loginPage(Model model, Principal principal, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        getCustomAttributes(model, request, response);
 
-        try {
-            SavedRequest savedRequest = getSavedRequest(request, response);
+        String formAction = "/login";
 
-            if (savedRequest != null) {
-                try {
-                    String client_id = savedRequest.getParameterMap().get("client_id")[0];
-                    String response_type = savedRequest.getParameterMap().get("response_type")[0];
-                    String redirect_uri = savedRequest.getParameterMap().get("redirect_uri")[0];
+        String queryString = request.getQueryString();
 
-                    if (Arrays.asList(client_id, response_type, redirect_uri).contains(null)) {
-                        return defaultRedirect();
-                    }
-                } catch (Exception ex) {
-                    return defaultRedirect();
-                }
-            } else {
-                return defaultRedirect();
-            }
-        } catch (Exception e) {
-            return defaultRedirect();
+        if (queryString != null) {
+            formAction = "/login?" + queryString;
         }
+
+        model.addAttribute("formAction", formAction);
+        // getCustomAttributes(model, request, response);
+
+        // try {
+        // SavedRequest savedRequest = getSavedRequest(request, response);
+
+        // if (savedRequest != null) {
+        // try {
+        // String client_id = savedRequest.getParameterMap().get("client_id")[0];
+        // String response_type =
+        // savedRequest.getParameterMap().get("response_type")[0];
+        // String redirect_uri = savedRequest.getParameterMap().get("redirect_uri")[0];
+
+        // if (Arrays.asList(client_id, response_type, redirect_uri).contains(null)) {
+        // return defaultRedirect();
+        // }
+        // } catch (Exception ex) {
+        // return defaultRedirect();
+        // }
+        // } else {
+        // // return defaultRedirect();
+        // }
+        // } catch (Exception e) {
+        // // return defaultRedirect();
+        // }
 
         // if (savedRequest != null) {
         // try {
