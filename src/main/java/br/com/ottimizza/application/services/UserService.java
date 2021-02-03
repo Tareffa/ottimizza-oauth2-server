@@ -100,9 +100,10 @@ public class UserService {
     }
 
     public User create(User user, User authorizedUser) throws OrganizationNotFoundException, UserAlreadyRegisteredException, Exception {
-    	User checkUser = userRepository.findByEmailAndOrganizationId(user.getEmail(), authorizedUser.getOrganization().getId());
+    	User checkUser = userRepository.findByEmail(user.getEmail());
     	if(checkUser != null) {
-    		return checkUser;
+    		if(checkUser.getOrganization().getCnpj().equals(user.getOrganization().getCnpj()))
+    			return checkUser;
     	}
     	user.setUpdatedBy(authorizedUser.getEmail());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
@@ -110,7 +111,6 @@ public class UserService {
         User usuario = userRepository.save(user);
         if(APPLICATION_ID.equals("tareffa")) {
         	userProductsRepository.saveUserProductsTareffa(usuario.getId());
-        	
         }
         
         return usuario;
