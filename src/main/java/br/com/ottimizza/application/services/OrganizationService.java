@@ -206,8 +206,10 @@ public class OrganizationService {
 
         // Filtros de Usuários da Ottimizza (Administradores).
         if (authenticated.getType().equals(User.Type.ADMINISTRATOR)) {
-
-            if (organizationDTO.getOrganizationId() == null && !ignoreAccountingFilter) {
+        	
+        	if(organizationDTO.getType() == Organization.Type.ACCOUNTING) {
+        		organization.setOrganization(null);
+        	} else if (organizationDTO.getOrganizationId() == null && !ignoreAccountingFilter) {
             	 organization.setOrganization(authenticated.getOrganization());
             } else {
             	Organization accounting = new Organization();
