@@ -42,7 +42,9 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryCustom 
     @Override
     public Page<Organization> fetchAllByAccountantId(OrganizationDTO filter, Pageable pageable, User authorizedUser) {
         JPAQuery<Organization> query = new JPAQuery<Organization>(em).from(organization);
-        filter.setOrganizationId(authorizedUser.getOrganization().getId());
+        if(filter.getType() == 2) {
+            filter.setOrganizationId(authorizedUser.getOrganization().getId());
+        }
         totalElements = filter(query, filter);
         sort(query, pageable, Organization.class, QORGANIZATION_NAME);
         paginate(query, pageable);
