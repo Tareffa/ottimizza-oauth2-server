@@ -14,7 +14,6 @@ public class MessageService {
     private String MESSAGE_ALERT;
 
     public MessageDTO getMessage() throws Exception {
-        System.out.println(MESSAGE_ALERT);
         ObjectMapper mapper = new ObjectMapper();
         MessageDTO message = mapper.readValue(MESSAGE_ALERT, MessageDTO.class);
         return message;

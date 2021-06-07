@@ -52,8 +52,16 @@ public class Product implements Serializable {
     
     @Column(name = "product_order")
     private Short productOrder;
+
+    @Column(name = "classification")
+    private Short classification;
     
     @Column(name = "external_id")
     private String external_id;
+
+    public static class Classification {
+        public static final Integer OTTIMIZZA = 0;
+        public static final Integer PARTNER = 1;
+    }
 
 }

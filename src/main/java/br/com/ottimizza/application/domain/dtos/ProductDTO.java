@@ -31,6 +31,8 @@ public class ProductDTO implements Serializable {
     
     private String aboutUrl;
 
+    private Short classification;
+
     public Product patch(Product product) {
         if (this.name != null && !this.name.equals(""))
             product.setName(this.name);
@@ -46,6 +48,9 @@ public class ProductDTO implements Serializable {
 
         if (this.group != null && !this.group.equals(""))
             product.setGroup(this.group);
+
+        if(this.classification != null)
+            product.setClassification(this.classification);
 
         return product;
     }
