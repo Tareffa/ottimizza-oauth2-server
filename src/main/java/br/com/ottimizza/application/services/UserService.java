@@ -606,4 +606,17 @@ public class UserService {
         return informations;
     }
     
+    public UserDTO getUsersByOrganizationIdAndPhone(BigInteger organizationId) throws Exception {
+        List<User> user = userRepository.fetchByOrganizationIdAndPhone(organizationId); 
+        if(user.size() > 0)
+            return UserDTO.fromEntity(user.get(0));
+        
+        return null;
+    }
+
+    public UserDTO getUsersByOrganizationId(BigInteger organizationId) throws Exception {
+        List<User> user = userRepository.fetchByOrganizationId(organizationId); 
+        return UserDTO.fromEntity(user.get(0));
+    }
+
 }

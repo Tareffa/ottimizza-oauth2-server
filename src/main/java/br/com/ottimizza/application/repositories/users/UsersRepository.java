@@ -134,5 +134,10 @@ public interface UsersRepository extends PagingAndSortingRepository<User, BigInt
     @Query(value = "SELECT a.name FROM users_authorities ua INNER JOIN authorities a ON (a.name = ua.fk_authorities_id) WHERE ua.fk_users_id = :id", nativeQuery = true)
     Set<Authority> fetchAuthoritiesById(@Param("id") BigInteger id);
     
+    @Query(value = "SELECT u FROM User u WHERE u.organization.id = :organizationId AND u.phone != null")
+    List<User>  fetchByOrganizationIdAndPhone(@Param("organizationId") BigInteger organizationId);
     
+    @Query(value = "SELECT u FROM User u WHERE u.organization.id = :organizationId")
+    List<User>  fetchByOrganizationId(@Param("organizationId") BigInteger organizationId);
+
 }

@@ -214,5 +214,19 @@ public class UsersController {
                 userService.getInformations()
         ));
     }
+
+    @GetMapping("/{organizationId}/has_phone")
+    public HttpEntity<?> getUserByOrganizationIdAndPhone(@PathVariable BigInteger organizationId) throws Exception {
+        return ResponseEntity.ok(new GenericResponse<>(
+                userService.getUsersByOrganizationIdAndPhone(organizationId)
+        ));
+    }
+
+    @GetMapping("/{organizationId}/organization")
+    public HttpEntity<?> getUserByOrganizationId(@PathVariable BigInteger organizationId) throws Exception {
+        return ResponseEntity.ok(new GenericResponse<>(
+                userService.getUsersByOrganizationId(organizationId)
+        ));
+    }
     
 }
