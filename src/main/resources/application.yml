@@ -94,5 +94,9 @@ security:
     key-pair-alias: ottimizza
     key-pair-password: ottimizza
 
+  resource:
+    userInfoUri: ${oauth2-config.server-url}/user/info
+    tokenInfoUri: ${oauth2-config.server-url}/oauth/check_token
+
 
 auth.cookie.hmac-key: "y.E@EA!FbtCwXYB-2v_n.!*xgzRqgtbq2d2_A_U!W2hubL@URHRzNP96WNPxEcXK"
