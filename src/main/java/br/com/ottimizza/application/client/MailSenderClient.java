@@ -11,7 +11,7 @@ import br.com.ottimizza.application.domain.responses.GenericResponse;
 @FeignClient(name = "${emailsender.service.name}", url = "${emailsender.service.url}")
 public interface MailSenderClient {
 
-	@PostMapping("/api/v1/emails")
+	@PostMapping(value = "/api/v1/emails", consumes = "multipart/form-data")
 	HttpEntity<GenericResponse<?>> sendMail(@RequestBody MailDTO mailDto);	
 
 }
