@@ -206,8 +206,10 @@ public class OrganizationService {
 
         // Filtros de Usuários da Ottimizza (Administradores).
         if (authenticated.getType().equals(User.Type.ADMINISTRATOR)) {
-
-            if (organizationDTO.getOrganizationId() == null && !ignoreAccountingFilter) {
+        	
+        	if(organizationDTO.getType() == Organization.Type.ACCOUNTING) {
+        		organization.setOrganization(null);
+        	} else if (organizationDTO.getOrganizationId() == null && !ignoreAccountingFilter) {
             	 organization.setOrganization(authenticated.getOrganization());
             } else {
             	Organization accounting = new Organization();
@@ -233,7 +235,7 @@ public class OrganizationService {
         checkRequiredFields(organization);
 
         // remove formatacao do cnpj.
-        organization.setCnpj(organization.getCnpj().replace("\\D+", ""));
+        organization.setCnpj(organization.getCnpj().replaceAll("\\D+", ""));
 
         checkIfOrganizationIsNotParentOfItself(organization);
         checkIfOrganizationIsNotAlreadyRegistered(organization);
@@ -247,7 +249,7 @@ public class OrganizationService {
         Organization current = organizationDTO.patch(findById(id, authenticated));
 
         // remove formatacao do cnpj.
-        current.setCnpj(current.getCnpj().replace("\\D+", ""));
+        current.setCnpj(current.getCnpj().replaceAll("\\D+", ""));
 
         checkIfOrganizationIsNotAlreadyRegistered(current);
         return OrganizationMapper.fromEntity(organizationRepository.save(current));

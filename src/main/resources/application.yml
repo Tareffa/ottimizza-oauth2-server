@@ -79,8 +79,13 @@ email-sender:
 portal:
   server-url: ${PORTAL_BASE_URL:https://development-accounts.ottimizza.com.br}
 
+message: ${ALERT_MESSAGE:{"text":"Lorem ipsum", "color":"black", "link":""}}
+
 accountingDepartments: ${USER_DEFAULT_DEPARTMENTS:fiscal, contábil, depto pessoal, financeiro, administrativo, legalização, diretoria}
 roles: ${USER_DEFAULT_ROLES:contador, gestor, diretor}
+backgroundColor: ${SIGNIN_BACKGROUND:#004ecb}
+
+application-id: ${APPLICATION_ID:Ottimizza}
 
 security:
   jwt:
@@ -88,3 +93,6 @@ security:
     key-store-password: ottimizza
     key-pair-alias: ottimizza
     key-pair-password: ottimizza
+
+
+auth.cookie.hmac-key: "y.E@EA!FbtCwXYB-2v_n.!*xgzRqgtbq2d2_A_U!W2hubL@URHRzNP96WNPxEcXK"

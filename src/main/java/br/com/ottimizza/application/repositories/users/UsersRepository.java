@@ -86,7 +86,7 @@ public interface UsersRepository extends PagingAndSortingRepository<User, BigInt
 
     @Query("SELECT u FROM User u WHERE LOWER(u.email) = LOWER(:email)")
     User findByEmail(@Param("email") String email);
-
+    
     @Modifying
     @Transactional
     @Query("UPDATE User u set u.password = :password WHERE LOWER(u.username) = LOWER(:username)")
