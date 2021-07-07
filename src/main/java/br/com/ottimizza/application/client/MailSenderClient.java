@@ -12,7 +12,7 @@ import br.com.ottimizza.application.domain.responses.GenericResponse;
 @FeignClient(name = "${emailsender.service.name}", url = "${emailsender.service.url}")
 public interface MailSenderClient {
 
-	@PostMapping(value = "/api/v1/emails", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/v1/emails", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	HttpEntity<GenericResponse<?>> sendMail(@RequestBody MailDTO mailDto);	
 
 }
