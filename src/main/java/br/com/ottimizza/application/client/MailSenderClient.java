@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import br.com.ottimizza.application.domain.dtos.MailDTO;
 import br.com.ottimizza.application.domain.responses.GenericResponse;
 
-@FeignClient(name = "${emailsender.service.name}", url = "${emailsender.service.url}")
+@FeignClient(name = "${email-sender.service.name}", url = "${email-sender.service.url}")
 public interface MailSenderClient {
 
 	@PostMapping(value = "/api/v1/emails")
