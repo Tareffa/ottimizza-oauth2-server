@@ -52,7 +52,7 @@ spring:
     test-connection: false # was true
   servlet:
     multipart:
-      enabled: false
+      enabled: true
       file-size-threshold: 2KB
       max-request-size: 215MB
       max-file-size: 200MB
