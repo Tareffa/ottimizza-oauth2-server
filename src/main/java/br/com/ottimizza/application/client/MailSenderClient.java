@@ -28,7 +28,7 @@ public interface MailSenderClient {
         }
     }
 
-	@PostMapping(value = "/api/v1/emails")
+	@PostMapping(value = "/api/v1/emails", consumes = {"multipart/form-data"})
 	HttpEntity<GenericResponse<?>> sendMail(@RequestBody MailDTO mailDto);	
 
 }
