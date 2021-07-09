@@ -1,5 +1,7 @@
 package br.com.ottimizza.application.domain.dtos;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MailDTO {
+public class MailDTO implements Serializable {
+	
 	private String to;
 	
 	private String subject;

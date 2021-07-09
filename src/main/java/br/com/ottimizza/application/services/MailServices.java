@@ -93,13 +93,7 @@ public class MailServices {
     
     
     public void sendAwsSes(MailDTO mail) {
-        try {
-            mailSenderClient.sendMail(mail);
-        }
-        catch(Exception ex) {
-            System.out.println("message: "+ex.getMessage());
-            System.out.println(ex.getStackTrace().toString());
-        }
+        mailSenderClient.sendMail(mail);    
     }
     
     @Data
