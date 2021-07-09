@@ -15,7 +15,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MailDTO implements Serializable {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	private String to;
 	
 	private String subject;
