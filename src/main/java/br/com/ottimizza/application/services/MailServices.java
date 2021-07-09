@@ -98,7 +98,7 @@ public class MailServices {
         }
         catch(Exception ex) {
             System.out.println("message: "+ex.getMessage());
-            System.out.println(ex.getStackTrace());
+            System.out.println(ex.getStackTrace().toString());
         }
     }
     
