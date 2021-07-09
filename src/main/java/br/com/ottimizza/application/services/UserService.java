@@ -47,9 +47,6 @@ import br.com.ottimizza.application.repositories.users_organizations.UserOrganiz
 @Service
 public class UserService {
 
-    @Autowired
-    ReceitaWSClient receitaWSClient;
-
     @Inject
     MailServices mailServices;
 

@@ -18,9 +18,19 @@ import br.com.ottimizza.application.domain.responses.GenericResponse;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
 
-@FeignClient(name = "${email-sender.service.name}", url = "${email-sender.service.url}")
+@FeignClient(name = "${email-sender.service.name}", url = "${email-sender.service.url}", configuration = MailSenderClient.MultipartSupportConfig.class)
 public interface MailSenderClient {
 
+	@Configuration
+    public class MultipartSupportConfig {
+
+        @Bean
+        @Primary
+        @Scope("prototype")
+        public Encoder feignFormEncoder() {
+            return new SpringFormEncoder();
+        }
+    }
 
 	@PostMapping(value = "/api/v1/emails", consumes = {"multipart/form-data"})
 	HttpEntity<GenericResponse<?>> sendMail(@RequestBody MailDTO mailDto);	
