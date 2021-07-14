@@ -22,19 +22,16 @@ import feign.form.spring.SpringFormEncoder;
 @FeignClient(name = "${email-sender.service.name}", url = "${email-sender.service.url}", configuration = MailSenderClient.MultipartSupportConfig.class)
 public interface MailSenderClient {
 
-	@Configuration
-    public class MultipartSupportConfig {
-
-        @Bean
-        @Primary
-        @Scope("prototype")
-        public Encoder feignFormEncoder() {
-            return new SpringFormEncoder();
-        }
-    }
-
 	@PostMapping(value = "/api/v1/emails")
     @Headers("Content-Type: multipart/form-data")
-	HttpEntity<GenericResponse<?>> sendMail(@RequestBody String mailDto);	
+	HttpEntity<GenericResponse<?>> sendMail(@RequestBody MailDTO mailDto);	
+
+    class Configuration {
+
+        @Bean
+        Encoder feignFormEncoder(ObjectFactory<HttpMessageConverters> converters) {
+            return new SpringFormEncoder(new SpringEncoder(converters));
+        }
+    }
 
 }
