@@ -34,7 +34,7 @@ public class InviteController {
         ));
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<?> invite(@RequestBody UserOrganizationInvite inviteDetails, Principal principal) throws Exception {
         return ResponseEntity.ok(new GenericResponse<UserOrganizationInvite>(
             invitationService.invite(inviteDetails, principal)
