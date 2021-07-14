@@ -35,6 +35,6 @@ public interface MailSenderClient {
 
 	@PostMapping(value = "/api/v1/emails")
     @Headers("Content-Type: multipart/form-data")
-	HttpEntity<GenericResponse<?>> sendMail(@RequestBody MailDTO mailDto);	
+	HttpEntity<GenericResponse<?>> sendMail(@RequestBody String mailDto);	
 
 }

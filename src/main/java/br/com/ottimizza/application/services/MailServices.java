@@ -95,7 +95,7 @@ public class MailServices {
     public void sendAwsSes(MailDTO mail) {
         try {
             System.out.println("enviando email");
-            mailSenderClient.sendMail(mail);
+            mailSenderClient.sendMail(mail.toString());
         }
         catch(Exception ex) {
             System.out.println("caiu catch");
