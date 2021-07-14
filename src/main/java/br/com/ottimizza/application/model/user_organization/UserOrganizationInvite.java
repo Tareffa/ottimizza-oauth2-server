@@ -20,6 +20,7 @@ import br.com.ottimizza.application.model.invitation.InvitationUserDetails;
 import br.com.ottimizza.application.model.invitation.InvitationUserDetailsConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Builder(toBuilder = true)
 @Table(name = "users_organizations_invites")
 public class UserOrganizationInvite implements Serializable {
