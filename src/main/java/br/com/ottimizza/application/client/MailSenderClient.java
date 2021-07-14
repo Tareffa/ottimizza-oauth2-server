@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.ottimizza.application.domain.dtos.MailDTO;
 import br.com.ottimizza.application.domain.responses.GenericResponse;
+import feign.Headers;
 
 @FeignClient(name = "${email-sender.service.name}", url = "${email-sender.service.url}")
 public interface MailSenderClient {
@@ -14,6 +15,7 @@ public interface MailSenderClient {
 	
 
 	@PostMapping(value = "/api/v1/emails")
+    @Headers("Content-Type: multipart/form-data")
 	HttpEntity<GenericResponse<?>> sendMail(@RequestBody MailDTO mailDto);	
 
 }
