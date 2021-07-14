@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import javax.inject.Inject;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +34,7 @@ public class InviteController {
         ));
     }
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> invite(@RequestBody UserOrganizationInvite inviteDetails, Principal principal) throws Exception {
         return ResponseEntity.ok(new GenericResponse<UserOrganizationInvite>(
             invitationService.invite(inviteDetails, principal)
