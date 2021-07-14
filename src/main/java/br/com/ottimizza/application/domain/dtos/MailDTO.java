@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MailDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -22,8 +23,7 @@ public class MailDTO implements Serializable {
 	private String subject;
 	
 	private String body;
-	
-	
+
 	private String from;
 	
 	private String cc;
@@ -31,7 +31,6 @@ public class MailDTO implements Serializable {
 	private String cco;
 	
 	private String replyTo;
-
 	
 	private String name;
 	

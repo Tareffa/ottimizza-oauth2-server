@@ -100,7 +100,7 @@ public class MailServices {
         catch(Exception ex) {
             System.out.println("caiu catch");
             System.out.println("message: "+ex.getMessage());
-            System.out.println(ex.getStackTrace().toString());
+            System.out.println(ex.getCause());
         }
     }
     
