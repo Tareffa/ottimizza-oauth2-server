@@ -22,14 +22,14 @@ import feign.form.spring.SpringFormEncoder;
 @FeignClient(name = "${email-sender.service.name}", url = "${email-sender.service.url}", configuration = MailSenderClient.MultipartSupportConfig.class)
 public interface MailSenderClient {
 
-	public class MultipartSupportConfig {
-        
-        @Autowired
-        private ObjectFactory<HttpMessageConverters> messageConverters;
-        
+	@Configuration
+    public class MultipartSupportConfig {
+
         @Bean
+        @Primary
+        @Scope("prototype")
         public Encoder feignFormEncoder() {
-        return new SpringFormEncoder(new SpringEncoder(messageConverters));
+            return new SpringFormEncoder();
         }
     }
 
