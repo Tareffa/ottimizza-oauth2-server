@@ -19,7 +19,7 @@ import feign.Headers;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
 
-@FeignClient(name = "${email-sender.service.name}", url = "${email-sender.service.url}", configuration = MailSenderClient.MultipartSupportConfig.class)
+@FeignClient(name = "${email-sender.service.name}", url = "${email-sender.service.url}")
 public interface MailSenderClient {
 
 	@PostMapping(value = "/api/v1/emails")
